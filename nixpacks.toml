@@ -6,7 +6,7 @@ nixPkgs = ["nodejs_20", "openssl"]
 cmds = ["cd backend"]
 
 [phases.install]
-cmds = ["cd backend && npm ci"]
+cmds = ["cd backend && npm ci --cache /tmp/.npm"]
 
 [phases.build]
 cmds = [
@@ -19,3 +19,4 @@ cmd = "cd backend && npx prisma migrate deploy && npm run start:prod"
 
 [variables]
 NODE_ENV = "production"
+NPM_CONFIG_CACHE = "/tmp/.npm"

@@ -5,7 +5,7 @@
 nixPkgs = ["nodejs_20", "openssl"]
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm ci --cache /tmp/.npm"]
 
 [phases.build]
 cmds = [
@@ -18,3 +18,4 @@ cmd = "npx prisma migrate deploy && npm run start:prod"
 
 [variables]
 NODE_ENV = "production"
+NPM_CONFIG_CACHE = "/tmp/.npm"
