@@ -20,7 +20,7 @@ import { UploadsModule } from './uploads/uploads.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: process.env.NODE_ENV === 'production' ? undefined : '.env',
     }),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
