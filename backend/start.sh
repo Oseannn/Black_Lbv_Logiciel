@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 echo "🔄 Starting application..."
 
@@ -9,4 +8,4 @@ npx prisma migrate deploy || echo "⚠️  Migration warning (continuing anyway)
 
 # Start the application
 echo "🚀 Starting NestJS application..."
-npm run start:prod
+exec npm run start:prod
