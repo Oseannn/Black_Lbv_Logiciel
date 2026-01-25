@@ -6,16 +6,14 @@ RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files AND prisma schema FIRST (needed for npm ci)
 COPY package*.json ./
-
-# Install dependencies without cache issues
-RUN npm ci --cache /tmp/.npm
-
-# Copy prisma schema
 COPY prisma ./prisma/
 
-# Generate Prisma client
+# Install dependencies (ignore scripts to avoid prisma generate before schema is ready)
+RUN npm ci --cache /tmp/.npm --ignore-scripts
+
+# Generate Prisma client (now schema is available)
 RUN npx prisma generate
 
 # Copy rest of the application
