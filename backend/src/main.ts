@@ -5,7 +5,17 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  console.log('🔄 Starting application bootstrap...');
+  console.log('📊 Environment:', {
+    NODE_ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT,
+    DATABASE_URL: process.env.DATABASE_URL ? '✅ Set' : '❌ Missing',
+    FRONTEND_URL: process.env.FRONTEND_URL || 'Not set',
+  });
+
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'log', 'debug', 'verbose'],
+  });
 
   // Configure CORS origins based on environment
   const allowedOrigins = ['http://localhost:3001', 'http://127.0.0.1:3001'];
@@ -14,6 +24,8 @@ async function bootstrap() {
   if (process.env.FRONTEND_URL) {
     allowedOrigins.push(process.env.FRONTEND_URL);
   }
+
+  console.log('🔧 Allowed CORS origins:', allowedOrigins);
 
   // Enable CORS for frontend
   app.enableCors({
@@ -59,10 +71,13 @@ async function bootstrap() {
 
   for (const host of hostsToTry) {
     try {
+      console.log(`🔌 Attempting to bind to ${host}:${port}...`);
       await app.listen(port, host);
       boundHost = host;
+      console.log(`✅ Successfully bound to ${host}:${port}`);
       console.log(`🚀 Application is running on: http://${host}:${port}/api`);
-      console.log(`✅ Health check endpoint ready at: http://${host}:${port}/api/health`);
+      console.log(`📚 Swagger docs: http://${host}:${port}/api/docs`);
+      console.log(`💚 Health check: http://${host}:${port}/api/health`);
       break;
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -85,6 +100,8 @@ async function bootstrap() {
     // eslint-disable-next-line no-console
     console.warn('⚠️  Unable to retrieve server address info', err);
   }
+
+  console.log('✨ Application bootstrap completed successfully!');
 }
 bootstrap().catch((err) => {
   console.error('❌ Failed to bootstrap application:', err);
