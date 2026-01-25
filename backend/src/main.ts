@@ -55,5 +55,9 @@ async function bootstrap() {
   await app.listen(port, '0.0.0.0');
 
   console.log(`🚀 Application is running on: http://localhost:${port}/api`);
+  console.log(`✅ Health check endpoint ready at: http://localhost:${port}/api/health`);
 }
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('❌ Failed to bootstrap application:', err);
+  process.exit(1);
+});
