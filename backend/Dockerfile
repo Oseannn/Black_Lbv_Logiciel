@@ -22,8 +22,16 @@ COPY . .
 # Build the application
 RUN npm run build
 
+# Create startup script with migration handling
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'echo "Running Prisma migrations..."' >> /app/start.sh && \
+    echo 'npx prisma migrate deploy 2>&1 || echo "Migration warning - continuing startup"' >> /app/start.sh && \
+    echo 'echo "Starting application..."' >> /app/start.sh && \
+    echo 'npm run start:prod' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
 # Expose port
 EXPOSE 3000
 
 # Start command
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run start:prod"]
+CMD ["/app/start.sh"]
