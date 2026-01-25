@@ -20,10 +20,16 @@ const nextConfig: NextConfig = {
         port: "3000",
         pathname: "/**",
       },
-      // Railway production backend (wildcard for any Railway domain)
+      // Railway production backend
       {
         protocol: "https",
         hostname: "*.railway.app",
+        pathname: "/**",
+      },
+      // Cloudinary
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
     ],

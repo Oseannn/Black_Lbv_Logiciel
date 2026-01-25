@@ -1,44 +1,21 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { join } from 'path';
-import { existsSync, mkdirSync, unlinkSync } from 'fs';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class UploadsService {
-  private readonly uploadDir = join(process.cwd(), 'uploads');
+  constructor(private readonly cloudinaryService: CloudinaryService) {}
 
-  constructor() {
-    // Ensure upload directory exists
-    if (!existsSync(this.uploadDir)) {
-      mkdirSync(this.uploadDir, { recursive: true });
-    }
+  async uploadImage(
+    file: Express.Multer.File,
+    folder: string = 'osean',
+  ): Promise<string> {
+    this.validateImage(file);
+    return await this.cloudinaryService.uploadImage(file, folder);
   }
 
-  getUploadPath(): string {
-    return this.uploadDir;
-  }
-
-  generateFileName(originalName: string): string {
-    const timestamp = Date.now();
-    const random = Math.round(Math.random() * 1e9);
-    const ext = originalName.split('.').pop()?.toLowerCase() || 'jpg';
-    return `${timestamp}-${random}.${ext}`;
-  }
-
-  getFileUrl(filename: string): string {
-    return `/uploads/${filename}`;
-  }
-
-  deleteFile(filename: string): boolean {
-    try {
-      const filePath = join(this.uploadDir, filename);
-      if (existsSync(filePath)) {
-        unlinkSync(filePath);
-        return true;
-      }
-      return false;
-    } catch {
-      return false;
-    }
+  async deleteImage(url: string): Promise<void> {
+    const publicId = this.cloudinaryService.extractPublicId(url);
+    await this.cloudinaryService.deleteImage(publicId);
   }
 
   validateImage(file: Express.Multer.File): void {
