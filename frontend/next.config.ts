@@ -4,15 +4,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
 
-  // Environment variables
-  env: {
-    NEXT_PUBLIC_BACKEND_URL:
-      process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000",
-    NEXT_PUBLIC_API_URL:
-      process.env.NEXT_PUBLIC_API_URL ||
-      `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000"}/api`,
-  },
-
   // Image optimization configuration
   images: {
     remotePatterns: [
@@ -35,12 +26,6 @@ const nextConfig: NextConfig = {
         hostname: "*.railway.app",
         pathname: "/**",
       },
-      // Alternative: specific Railway domain (uncomment and customize)
-      // {
-      //   protocol: 'https',
-      //   hostname: 'your-backend.up.railway.app',
-      //   pathname: '/**',
-      // },
     ],
   },
 

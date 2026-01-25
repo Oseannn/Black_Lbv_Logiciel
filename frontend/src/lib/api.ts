@@ -1,14 +1,25 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
-const API_URL = process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`;
+// Force the production URL or fallback to localhost
+const BACKEND_URL = typeof window !== 'undefined' 
+  ? (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000')
+  : (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000');
+
+const API_URL = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`)
+  : (process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`);
+
+console.log('🔧 API Configuration:', { BACKEND_URL, API_URL });
+
+export { BACKEND_URL };
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: false,
 });
 
 // Interceptor pour ajouter le token
