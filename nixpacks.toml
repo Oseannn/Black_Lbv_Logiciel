@@ -2,7 +2,7 @@
 # This tells Railway to use the backend directory
 
 [phases.setup]
-nixPkgs = ["nodejs_22", "openssl"]
+nixPkgs = ["nodejs_20", "openssl"]
 cmds = ["cd backend"]
 
 [phases.install]
