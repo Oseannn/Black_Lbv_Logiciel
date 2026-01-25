@@ -5,13 +5,15 @@
 nixPkgs = ["nodejs_20", "openssl"]
 
 [phases.install]
-cmds = ["npm ci --cache /tmp/.npm"]
+cmds = ["npm ci --cache /tmp/.npm --ignore-scripts"]
+cacheDirectories = []
 
 [phases.build]
 cmds = [
     "npx prisma generate",
     "npm run build"
 ]
+cacheDirectories = []
 
 [start]
 cmd = "npx prisma migrate deploy && npm run start:prod"
@@ -19,3 +21,7 @@ cmd = "npx prisma migrate deploy && npm run start:prod"
 [variables]
 NODE_ENV = "production"
 NPM_CONFIG_CACHE = "/tmp/.npm"
+
+# Disable default cache directories to avoid EBUSY error
+[options]
+no-cache = true
