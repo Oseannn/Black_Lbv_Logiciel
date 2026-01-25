@@ -22,10 +22,14 @@ import { UploadsModule } from './uploads/uploads.module';
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'production' ? undefined : '.env',
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'uploads'),
-      serveRoot: '/uploads',
-    }),
+    ...(process.env.NODE_ENV !== 'production'
+      ? [
+          ServeStaticModule.forRoot({
+            rootPath: join(process.cwd(), 'uploads'),
+            serveRoot: '/uploads',
+          }),
+        ]
+      : []),
     PrismaModule,
     AuthModule,
     UsersModule,
