@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(VENDEUSE)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  caisses   Caisse[]
+  sales     Sale[]
+
+  @@map("users")
+}
+
+model Product {
+  id        String     @id @default(uuid())
+  name      String
+  brand     String?
+  price     Decimal    @db.Decimal(10, 2)
+  stock     Int        @default(0)
+  photo     String?
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  category  String?
+  color     String?
+  size      String?
+  saleItems SaleItem[]
+
+  @@map("products")
+}
+
+model Client {
+  id        String     @id @default(uuid())
+  name      String
+  phone     String?
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  email     String?
+  notes     String?
+  type      ClientType @default(OCCASIONAL)
+  sales     Sale[]
+
+  @@map("clients")
+}
+
+model Caisse {
+  id             String         @id @default(uuid())
+  userId         String
+  status         CaisseStatus   @default(OPEN)
+  openingAmount  Decimal        @db.Decimal(10, 2)
+  closingAmount  Decimal?       @db.Decimal(10, 2)
+  expectedAmount Decimal?       @db.Decimal(10, 2)
+  difference     Decimal?       @db.Decimal(10, 2)
+  openedAt       DateTime       @default(now())
+  closedAt       DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id])
+  cashMovements  CashMovement[]
+  sales          Sale[]
+
+  @@map("caisses")
+}
+
+model CashMovement {
+  id        String   @id @default(uuid())
+  caisseId  String
+  amount    Decimal  @db.Decimal(10, 2)
+  reason    String
+  createdAt DateTime @default(now())
+  caisse    Caisse   @relation(fields: [caisseId], references: [id])
+
+  @@map("cash_movements")
+}
+
+model Sale {
+  id            String        @id @default(uuid())
+  userId        String
+  caisseId      String
+  clientId      String?
+  paymentMethod PaymentMethod
+  total         Decimal       @db.Decimal(10, 2)
+  createdAt     DateTime      @default(now())
+  items         SaleItem[]
+  caisse        Caisse        @relation(fields: [caisseId], references: [id])
+  client        Client?       @relation(fields: [clientId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@map("sales")
+}
+
+model SaleItem {
+  id         String   @id @default(uuid())
+  saleId     String
+  productId  String
+  quantity   Int
+  unitPrice  Decimal  @db.Decimal(10, 2)
+  totalPrice Decimal  @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+  product    Product  @relation(fields: [productId], references: [id])
+  sale       Sale     @relation(fields: [saleId], references: [id])
+
+  @@map("sale_items")
+}
+
+model Settings {
+  id            String   @id @default(uuid())
+  companyName   String   @default("Ma Boutique")
+  logo          String?
+  currency      String   @default("FCFA")
+  slogan        String?
+  invoiceFooter String?
+  address       String?
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("settings")
+}
+
+enum Role {
+  ADMIN
+  VENDEUSE
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  MOBILE_MONEY
+}
+
+enum CaisseStatus {
+  OPEN
+  CLOSED
+}
+
+enum ClientType {
+  VIP
+  REGULAR
+  OCCASIONAL
+}

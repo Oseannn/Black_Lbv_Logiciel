@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+
+# Environment variables (keep out of version control)
+.env
+.env.local
+.env.production
+!.env.example
+
+# Prisma
+/generated/prisma
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage
+
+# Uploads (production uploads should be on cloud storage)
+uploads/*
+!uploads/.gitkeep
+
+# Docker volumes
+postgres-data
