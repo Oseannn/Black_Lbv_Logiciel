@@ -29,7 +29,7 @@ import {
   Minus,
   Trash2,
   Search,
-  ScanBarcode,
+  RefreshCw,
   User,
   Pencil,
   UserPlus,
@@ -278,7 +278,7 @@ export default function VentePage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Scanner ou rechercher (Nom, Marque, SKU)..."
+                placeholder="Rechercher (Nom, Marque, SKU)..."
                 value={searchProduct}
                 onChange={(e) => setSearchProduct(e.target.value)}
                 className="w-full pl-12 pr-20 py-2.5 bg-zinc-50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
@@ -287,9 +287,15 @@ export default function VentePage() {
                 CTRL+K
               </span>
             </div>
-            <button className="px-6 py-2.5 bg-zinc-900 text-white rounded-xl flex items-center gap-2 font-medium hover:bg-black transition-colors shadow-lg shadow-black/10">
-              <ScanBarcode className="w-5 h-5" />
-              Scanner
+            <button 
+              onClick={() => {
+                fetchProducts();
+                fetchClients();
+              }}
+              className="px-6 py-2.5 bg-zinc-900 text-white rounded-xl flex items-center gap-2 font-medium hover:bg-black transition-colors shadow-lg shadow-black/10"
+            >
+              <RefreshCw className="w-5 h-5" />
+              Rafraîchir
             </button>
           </div>
 
