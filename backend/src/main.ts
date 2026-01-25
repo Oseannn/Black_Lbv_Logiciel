@@ -51,11 +51,40 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port, '0.0.0.0');
+  const port = Number(process.env.PORT ?? 3000);
 
-  console.log(`🚀 Application is running on: http://localhost:${port}/api`);
-  console.log(`✅ Health check endpoint ready at: http://localhost:${port}/api/health`);
+  // Try to bind IPv6 first, then fallback to IPv4 — this adds dual-stack support
+  const hostsToTry = ['::', '0.0.0.0'];
+  let boundHost: string | null = null;
+
+  for (const host of hostsToTry) {
+    try {
+      await app.listen(port, host);
+      boundHost = host;
+      console.log(`🚀 Application is running on: http://${host}:${port}/api`);
+      console.log(`✅ Health check endpoint ready at: http://${host}:${port}/api/health`);
+      break;
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn(`⚠️  Could not bind to ${host}: ${err?.message ?? err}`);
+    }
+  }
+
+  if (!boundHost) {
+    console.error('❌ Failed to bind to any host. Exiting.');
+    process.exit(1);
+  }
+
+  // Log the actual server address information (may reveal IPv4/IPv6 details)
+  try {
+    // `getHttpServer().address()` is provided by the underlying Node server
+    const server: any = app.getHttpServer();
+    const addr = typeof server.address === 'function' ? server.address() : null;
+    console.log('📡 Server address info:', addr);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('⚠️  Unable to retrieve server address info', err);
+  }
 }
 bootstrap().catch((err) => {
   console.error('❌ Failed to bootstrap application:', err);
