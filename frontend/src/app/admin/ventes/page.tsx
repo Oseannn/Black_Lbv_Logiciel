@@ -25,15 +25,30 @@ import {
 
 export default function VentesPage() {
   const [sales, setSales] = useState<Sale[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState<string>('');
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
 
   useEffect(() => {
     loadSales();
-  }, [dateFrom, dateTo]);
+  }, [dateFrom, dateTo, selectedUserId]);
+
+  const loadUsers = async () => {
+    try {
+      const response = await api.get('/users');
+      setUsers(response.data);
+    } catch (err) {
+      console.error('Error loading users:', err);
+    }
+  };
 
   const loadSales = async () => {
     try {
@@ -41,6 +56,7 @@ export default function VentesPage() {
       const params = new URLSearchParams();
       if (dateFrom) params.append('from', dateFrom);
       if (dateTo) params.append('to', dateTo);
+      if (selectedUserId) params.append('userId', selectedUserId);
       if (params.toString()) url += `?${params.toString()}`;
 
       const response = await api.get<Sale[]>(url);
@@ -91,7 +107,19 @@ export default function VentesPage() {
           <h1 className="text-3xl font-black text-foreground tracking-tighter">Historique des Ventes</h1>
           <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest mt-1">Journal complet des transactions</p>
         </div>
-        <div className="flex items-center gap-3 bg-card p-2 rounded-2xl border border-border shadow-sm">
+        <div className="flex items-center gap-3 bg-card p-2 rounded-2xl border border-border shadow-sm flex-wrap">
+          <select
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(e.target.value)}
+            className="h-10 px-4 border-none bg-zinc-100 rounded-xl font-bold text-sm focus:outline-none focus:ring-2 focus:ring-black/5"
+          >
+            <option value="">Toutes les vendeuses</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name} ({user.role})
+              </option>
+            ))}
+          </select>
           <Input
             type="date"
             value={dateFrom}
@@ -137,8 +165,78 @@ export default function VentesPage() {
         </Card>
       </div>
 
+      {/* Stats par vendeuse */}
+      {!selectedUserId && sales.length > 0 && (
+        <Card className="border-border bg-card shadow-sm rounded-3xl overflow-hidden">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-1 h-6 bg-black rounded-full" />
+              <h2 className="text-lg font-black uppercase tracking-widest">Performance par Vendeuse</h2>
+            </div>
+            <div className="space-y-4">
+              {(() => {
+                const salesByUser = sales.reduce((acc, sale) => {
+                  const userId = sale.userId;
+                  if (!acc[userId]) {
+                    acc[userId] = {
+                      name: sale.userName,
+                      count: 0,
+                      total: 0,
+                    };
+                  }
+                  acc[userId].count++;
+                  acc[userId].total += Number(sale.total);
+                  return acc;
+                }, {} as Record<string, { name: string; count: number; total: number }>);
+
+                return Object.entries(salesByUser)
+                  .sort((a, b) => b[1].total - a[1].total)
+                  .map(([userId, stats]) => (
+                    <div
+                      key={userId}
+                      className="flex items-center justify-between p-4 bg-zinc-50 rounded-2xl border border-zinc-100 hover:border-zinc-300 transition-all group cursor-pointer"
+                      onClick={() => setSelectedUserId(userId)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-white border-2 border-zinc-200 flex items-center justify-center font-black text-lg group-hover:border-black group-hover:bg-black group-hover:text-white transition-all">
+                          {stats.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="font-black text-foreground">{stats.name}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                            {stats.count} vente{stats.count > 1 ? 's' : ''}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-2xl font-black text-foreground tabular-nums tracking-tighter">
+                          {Math.round(stats.total).toLocaleString()}
+                        </p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase">FCFA</p>
+                      </div>
+                    </div>
+                  ));
+              })()}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Sales list */}
       <div className="space-y-4">
+        {selectedUserId && (
+          <div className="flex items-center gap-3 p-4 bg-zinc-900 text-white rounded-2xl">
+            <p className="text-sm font-bold">
+              Filtré par : {users.find(u => u.id === selectedUserId)?.name}
+            </p>
+            <button
+              onClick={() => setSelectedUserId('')}
+              className="ml-auto px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors"
+            >
+              Voir tout
+            </button>
+          </div>
+        )}
         {sales.map((sale) => (
           <Card
             key={sale.id}
