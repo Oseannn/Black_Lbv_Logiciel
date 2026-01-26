@@ -1,5 +1,4 @@
 'use client';
-// Page de vente pour les vendeuses - Version avec bouton Rafraîchir
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
@@ -30,7 +29,6 @@ import {
   Minus,
   Trash2,
   Search,
-  RefreshCw,
   User,
   Pencil,
   UserPlus,
@@ -279,7 +277,7 @@ export default function VentePage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Rechercher (Nom, Marque, SKU)..."
+                placeholder="Scanner ou rechercher (Nom, Marque, SKU)..."
                 value={searchProduct}
                 onChange={(e) => setSearchProduct(e.target.value)}
                 className="w-full pl-12 pr-20 py-2.5 bg-zinc-50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
@@ -289,13 +287,22 @@ export default function VentePage() {
               </span>
             </div>
             <button 
-              onClick={() => {
-                fetchProducts();
-                fetchClients();
-              }}
+              onClick={loadData}
               className="px-6 py-2.5 bg-zinc-900 text-white rounded-xl flex items-center gap-2 font-medium hover:bg-black transition-colors shadow-lg shadow-black/10"
             >
-              <RefreshCw className="w-5 h-5" />
+              <svg 
+                className="w-5 h-5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+                />
+              </svg>
               Rafraîchir
             </button>
           </div>
