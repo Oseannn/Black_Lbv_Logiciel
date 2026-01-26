@@ -1,4 +1,5 @@
 'use client';
+// Page de vente pour les vendeuses - Version avec bouton Rafraîchir
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
