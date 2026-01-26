@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Body, UseGuards, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { SettingsService } from './settings.service';
 import { UpdateSettingsDto, SettingsResponseDto } from './dto';
@@ -25,5 +25,14 @@ export class SettingsController {
     @Body() updateSettingsDto: UpdateSettingsDto,
   ): Promise<SettingsResponseDto> {
     return this.settingsService.update(updateSettingsDto);
+  }
+
+  // Seul l'admin peut réinitialiser les données
+  @Post('reset-data')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  async resetData(): Promise<{ message: string }> {
+    return this.settingsService.resetAllData();
   }
 }

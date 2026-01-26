@@ -14,6 +14,9 @@ export default function SettingsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetConfirmText, setResetConfirmText] = useState('');
+  const [isResetting, setIsResetting] = useState(false);
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -71,6 +74,32 @@ export default function SettingsPage() {
       setMessage('Erreur lors de l\'enregistrement');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleResetData = async () => {
+    if (resetConfirmText !== 'REINITIALISER') {
+      setMessage('Veuillez taper exactement "REINITIALISER" pour confirmer');
+      return;
+    }
+
+    setIsResetting(true);
+    setMessage('');
+
+    try {
+      await api.post('/settings/reset-data');
+      setMessage('✅ Toutes les données ont été réinitialisées avec succès !');
+      setShowResetConfirm(false);
+      setResetConfirmText('');
+      // Recharger après 2 secondes
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (err) {
+      console.error('Error resetting data:', err);
+      setMessage('❌ Erreur lors de la réinitialisation');
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -236,6 +265,79 @@ export default function SettingsPage() {
           </Button>
         </div>
       </form>
+
+      {/* Zone dangereuse - Réinitialisation */}
+      <div className="mt-20 pt-10 border-t-4 border-red-100">
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-6 bg-red-500 rounded-full" />
+            <h3 className="text-lg font-black tracking-tight uppercase text-red-600">Zone Dangereuse</h3>
+          </div>
+
+          <Card className="border-2 border-red-200 bg-red-50/50 shadow-md p-8 rounded-3xl space-y-6">
+            <div className="space-y-3">
+              <h4 className="text-xl font-black text-red-900">Réinitialiser toutes les données</h4>
+              <p className="text-sm text-red-700 font-medium leading-relaxed">
+                ⚠️ <strong>ATTENTION :</strong> Cette action est <strong>IRRÉVERSIBLE</strong> et supprimera définitivement :
+              </p>
+              <ul className="text-sm text-red-700 font-medium space-y-2 ml-6 list-disc">
+                <li>Toutes les ventes et historiques</li>
+                <li>Tous les produits du catalogue</li>
+                <li>Tous les clients enregistrés</li>
+                <li>Toutes les caisses et mouvements</li>
+                <li>Tous les utilisateurs (sauf l'admin principal)</li>
+                <li>Les paramètres de la boutique</li>
+              </ul>
+              <p className="text-sm text-red-700 font-bold">
+                Seul le compte admin principal sera conservé.
+              </p>
+            </div>
+
+            {!showResetConfirm ? (
+              <Button
+                type="button"
+                onClick={() => setShowResetConfirm(true)}
+                className="w-full h-14 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest"
+              >
+                🗑️ Réinitialiser toutes les données
+              </Button>
+            ) : (
+              <div className="space-y-4 p-6 bg-white rounded-2xl border-2 border-red-300">
+                <p className="text-sm font-black text-red-900 uppercase tracking-widest">
+                  Pour confirmer, tapez exactement : <span className="text-red-600">REINITIALISER</span>
+                </p>
+                <Input
+                  value={resetConfirmText}
+                  onChange={(e) => setResetConfirmText(e.target.value)}
+                  placeholder="Tapez REINITIALISER"
+                  className="bg-red-50 border-2 border-red-200 font-bold text-center"
+                />
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setShowResetConfirm(false);
+                      setResetConfirmText('');
+                    }}
+                    className="flex-1 h-12 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded-xl font-bold"
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleResetData}
+                    disabled={resetConfirmText !== 'REINITIALISER'}
+                    isLoading={isResetting}
+                    className="flex-1 h-12 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black uppercase tracking-widest disabled:opacity-50"
+                  >
+                    Confirmer la réinitialisation
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

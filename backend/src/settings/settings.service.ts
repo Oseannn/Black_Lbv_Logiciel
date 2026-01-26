@@ -41,6 +41,54 @@ export class SettingsService {
     return this.formatSettingsResponse(settings);
   }
 
+  async resetAllData(): Promise<{ message: string }> {
+    // Supprimer toutes les données dans l'ordre pour respecter les contraintes
+    await this.prisma.$transaction(async (tx) => {
+      // 1. Supprimer les items de vente
+      await tx.saleItem.deleteMany({});
+      
+      // 2. Supprimer les ventes
+      await tx.sale.deleteMany({});
+      
+      // 3. Supprimer les mouvements de caisse
+      await tx.cashMovement.deleteMany({});
+      
+      // 4. Supprimer les caisses
+      await tx.caisse.deleteMany({});
+      
+      // 5. Supprimer les produits
+      await tx.product.deleteMany({});
+      
+      // 6. Supprimer les clients
+      await tx.client.deleteMany({});
+      
+      // 7. Supprimer les utilisateurs sauf l'admin principal
+      await tx.user.deleteMany({
+        where: {
+          email: {
+            not: 'admin@osean.local',
+          },
+        },
+      });
+      
+      // 8. Réinitialiser les paramètres
+      await tx.settings.update({
+        where: { id: DEFAULT_SETTINGS_ID },
+        data: {
+          companyName: 'Ma Boutique',
+          logo: null,
+          currency: 'FCFA',
+          slogan: null,
+          invoiceFooter: null,
+          address: null,
+          phone: null,
+        },
+      });
+    });
+
+    return { message: 'Toutes les données ont été réinitialisées avec succès' };
+  }
+
   private formatSettingsResponse(settings: {
     id: string;
     companyName: string;
