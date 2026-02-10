@@ -38,8 +38,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <Sidebar role="ADMIN" />
 
       {/* Main Content - Pushed by Sidebar width on Desktop */}
-      <main className="flex-1 w-full lg:pl-72 min-h-screen flex flex-col transition-all duration-300">
-        <div className="flex-1 p-6 md:p-8 lg:p-10 max-w-[1600px] w-full mx-auto animate-fadeIn">
+      <main className="flex-1 w-full lg:pl-72 min-h-screen flex flex-col transition-all duration-300 pt-16 lg:pt-0">
+        <div className="flex-1 p-4 md:p-6 lg:p-8 xl:p-10 max-w-[1600px] w-full mx-auto animate-fadeIn">
           {children}
         </div>
       </main>

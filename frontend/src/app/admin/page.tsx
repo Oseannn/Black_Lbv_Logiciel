@@ -201,23 +201,23 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-10 animate-fadeIn pb-20">
-      <div className="flex items-center justify-between flex-wrap gap-4">
+    <div className="space-y-6 lg:space-y-10 animate-fadeIn pb-6 lg:pb-20">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-foreground tracking-tighter">Tableau de Bord</h1>
-          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest mt-1">Vue d'ensemble de l'activité</p>
+          <h1 className="text-2xl lg:text-3xl font-black text-foreground tracking-tighter">Tableau de Bord</h1>
+          <p className="text-muted-foreground text-xs lg:text-sm font-medium uppercase tracking-widest mt-1">Vue d'ensemble</p>
         </div>
-        <div className="flex items-center gap-4 bg-card p-2 rounded-2xl border border-border shadow-sm">
-          <div className="flex flex-col items-end px-2">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Dernier Refresh</span>
-            <span className="text-sm font-black tabular-nums">{lastUpdate.toLocaleTimeString()}</span>
+        <div className="flex items-center gap-3 lg:gap-4 bg-card p-2 rounded-xl lg:rounded-2xl border border-border shadow-sm w-full sm:w-auto">
+          <div className="flex flex-col items-end px-2 flex-1 sm:flex-initial">
+            <span className="text-[9px] lg:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Dernier Refresh</span>
+            <span className="text-xs lg:text-sm font-black tabular-nums">{lastUpdate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
           <Button
             onClick={handleRefresh}
             disabled={isLoading}
             variant="outline"
             size="icon"
-            className="h-10 w-10 rounded-xl"
+            className="h-9 w-9 lg:h-10 lg:w-10 rounded-xl"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin text-primary" />
@@ -229,22 +229,22 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Principales */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
             <Card key={index} className="group relative overflow-hidden border-border bg-card hover:border-primary/20 transition-all duration-300 shadow-sm hover:shadow-xl">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <Icon className="w-6 h-6" />
+              <CardContent className="p-4 lg:p-6">
+                <div className="flex items-center justify-between mb-3 lg:mb-4">
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-zinc-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <Icon className="w-5 h-5 lg:w-6 lg:h-6" />
                   </div>
-                  <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-zinc-100 px-2 py-1 rounded-md">LIVE</div>
+                  <div className="text-[8px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-zinc-100 px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-md">LIVE</div>
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-tighter mb-1">{stat.label}</p>
-                  <p className="text-4xl font-black text-foreground tracking-tighter tabular-nums mb-1">{stat.value}</p>
-                  <p className="text-sm font-bold text-zinc-400 tabular-nums">{stat.subValue}</p>
+                  <p className="text-[10px] lg:text-sm font-bold text-muted-foreground uppercase tracking-tighter mb-1">{stat.label}</p>
+                  <p className="text-2xl lg:text-4xl font-black text-foreground tracking-tighter tabular-nums mb-1">{stat.value}</p>
+                  <p className="text-xs lg:text-sm font-bold text-zinc-400 tabular-nums truncate">{stat.subValue}</p>
                 </div>
               </CardContent>
             </Card>
@@ -252,48 +252,48 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-10">
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
         {/* Top Vendeuses */}
         <Card className="border-border bg-card shadow-sm overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50">
+          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-black tracking-tight flex items-center gap-2">
+              <CardTitle className="text-base lg:text-lg font-black tracking-tight flex items-center gap-2">
                 Classement Boutique
               </CardTitle>
-              <TrendingUp className="w-5 h-5 text-muted-foreground" />
+              <TrendingUp className="w-4 h-4 lg:w-5 lg:h-5 text-muted-foreground" />
             </div>
           </CardHeader>
-          <CardContent className="p-4">
+          <CardContent className="p-3 lg:p-4">
             {data?.topVendeuses && data.topVendeuses.length > 0 ? (
               <div className="space-y-2">
                 {data.topVendeuses.map((v, index) => (
                   <div
                     key={v.userId}
-                    className="flex items-center justify-between p-4 hover:bg-zinc-50 rounded-2xl transition-colors group"
+                    className="flex items-center justify-between p-3 lg:p-4 hover:bg-zinc-50 rounded-xl lg:rounded-2xl transition-colors group"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shadow-sm ${index === 0 ? 'bg-black text-white' :
+                    <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
+                      <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl flex items-center justify-center font-black text-xs lg:text-sm shadow-sm ${index === 0 ? 'bg-black text-white' :
                         index === 1 ? 'bg-zinc-200 text-zinc-900' :
                           index === 2 ? 'bg-zinc-100 text-zinc-600' :
                             'bg-zinc-50 text-zinc-400'
                         }`}>
                         {index + 1}
                       </div>
-                      <div>
-                        <p className="font-bold text-foreground group-hover:translate-x-1 transition-transform">{v.userName}</p>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{v.totalSales} ventes réalisées</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-sm lg:text-base text-foreground group-hover:translate-x-1 transition-transform truncate">{v.userName}</p>
+                        <p className="text-[9px] lg:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{v.totalSales} ventes</p>
                       </div>
                     </div>
-                    <p className="font-black text-lg tracking-tight tabular-nums">
-                      {Math.round(Number(v.totalAmount)).toLocaleString()} <span className="text-[10px] font-normal">FCFA</span>
+                    <p className="font-black text-sm lg:text-lg tracking-tight tabular-nums shrink-0 ml-2">
+                      {Math.round(Number(v.totalAmount)).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal">F</span>
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-20 text-muted-foreground/30">
-                <ShoppingCart className="w-12 h-12 mb-2" />
-                <p className="text-sm font-bold uppercase tracking-widest">Aucune vente enregistrée</p>
+              <div className="flex flex-col items-center justify-center py-12 lg:py-20 text-muted-foreground/30">
+                <ShoppingCart className="w-10 h-10 lg:w-12 lg:h-12 mb-2" />
+                <p className="text-xs lg:text-sm font-bold uppercase tracking-widest">Aucune vente</p>
               </div>
             )}
           </CardContent>
@@ -301,76 +301,78 @@ export default function DashboardPage() {
 
         {/* Top Produits */}
         <Card className="border-border bg-card shadow-sm overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50">
+          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-black tracking-tight">Performances Produits</CardTitle>
-              <ShoppingCart className="w-5 h-5 text-muted-foreground" />
+              <CardTitle className="text-base lg:text-lg font-black tracking-tight">Performances Produits</CardTitle>
+              <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5 text-muted-foreground" />
             </div>
           </CardHeader>
-          <CardContent className="p-4">
+          <CardContent className="p-3 lg:p-4">
             {data?.topProducts && data.topProducts.length > 0 ? (
               <div className="space-y-2">
                 {data.topProducts.slice(0, 5).map((p, index) => (
                   <div
                     key={p.productId}
-                    className="flex items-center justify-between p-4 hover:bg-zinc-50 rounded-2xl transition-colors"
+                    className="flex items-center justify-between p-3 lg:p-4 hover:bg-zinc-50 rounded-xl lg:rounded-2xl transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-900 font-black text-sm border border-zinc-200">
+                    <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
+                      <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-900 font-black text-xs lg:text-sm border border-zinc-200">
                         #{index + 1}
                       </div>
-                      <div>
-                        <p className="font-bold text-foreground">{p.productName}</p>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{p.quantitySold} exemplaires vendus</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-sm lg:text-base text-foreground truncate">{p.productName}</p>
+                        <p className="text-[9px] lg:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{p.quantitySold} vendus</p>
                       </div>
                     </div>
-                    <p className="font-black text-lg tracking-tight tabular-nums">
-                      {Math.round(Number(p.totalAmount)).toLocaleString()} <span className="text-[10px] font-normal">FCFA</span>
+                    <p className="font-black text-sm lg:text-lg tracking-tight tabular-nums shrink-0 ml-2">
+                      {Math.round(Number(p.totalAmount)).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal">F</span>
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-20 text-muted-foreground/30">
-                <Package className="w-12 h-12 mb-2" />
-                <p className="text-sm font-bold uppercase tracking-widest">Aucun produit vendu</p>
+              <div className="flex flex-col items-center justify-center py-12 lg:py-20 text-muted-foreground/30">
+                <Package className="w-10 h-10 lg:w-12 lg:h-12 mb-2" />
+                <p className="text-xs lg:text-sm font-bold uppercase tracking-widest">Aucun produit</p>
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-10">
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
         {/* Méthodes de Paiement (Donut Chart) */}
         <Card className="border-border bg-card shadow-sm overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50">
+          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-black tracking-tight uppercase">Répartition Paiements</CardTitle>
-              <Banknote className="w-5 h-5 text-zinc-400" />
+              <CardTitle className="text-base lg:text-lg font-black tracking-tight uppercase">Répartition Paiements</CardTitle>
+              <Banknote className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-400" />
             </div>
           </CardHeader>
-          <CardContent className="p-10 flex flex-col md:flex-row items-center justify-center gap-10">
-            <DonutChart
-              data={[
-                { label: 'Espèces', value: getPaymentStat('CASH').total, color: '#000000' },
-                { label: 'Carte', value: getPaymentStat('CARD').total, color: '#4B5563' },
-                { label: 'Mobile', value: getPaymentStat('MOBILE_MONEY').total, color: '#9CA3AF' },
-              ]}
-            />
-            <div className="space-y-6 flex-1 w-full scale-90">
+          <CardContent className="p-6 lg:p-10 flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-10">
+            <div className="scale-75 lg:scale-100">
+              <DonutChart
+                data={[
+                  { label: 'Espèces', value: getPaymentStat('CASH').total, color: '#000000' },
+                  { label: 'Carte', value: getPaymentStat('CARD').total, color: '#4B5563' },
+                  { label: 'Mobile', value: getPaymentStat('MOBILE_MONEY').total, color: '#9CA3AF' },
+                ]}
+              />
+            </div>
+            <div className="space-y-4 lg:space-y-6 flex-1 w-full">
               {['CASH', 'CARD', 'MOBILE_MONEY'].map((m) => {
                 const stat = data?.paymentMethods.find(p => p.method === m);
                 const colors: Record<string, string> = { CASH: 'bg-black', CARD: 'bg-zinc-600', MOBILE_MONEY: 'bg-zinc-400' };
-                const labels: Record<string, string> = { CASH: 'Espèces', CARD: 'Carte Bancaire', MOBILE_MONEY: 'Mobile Money' };
+                const labels: Record<string, string> = { CASH: 'Espèces', CARD: 'Carte', MOBILE_MONEY: 'Mobile' };
                 return (
                   <div key={m} className="flex items-center justify-between group">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${colors[m]}`} />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-black transition-colors">{labels[m]}</span>
+                    <div className="flex items-center gap-2 lg:gap-3">
+                      <div className={`w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full ${colors[m]}`} />
+                      <span className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-black transition-colors">{labels[m]}</span>
                     </div>
                     <div className="text-right">
-                      <p className="font-black text-sm tabular-nums">{Math.round(stat?.total || 0).toLocaleString()} <span className="text-[10px] font-normal text-zinc-400">FCFA</span></p>
-                      <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">{(stat?.percentage || 0).toFixed(1)}%</p>
+                      <p className="font-black text-xs lg:text-sm tabular-nums">{Math.round(stat?.total || 0).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal text-zinc-400">F</span></p>
+                      <p className="text-[9px] lg:text-[10px] font-bold text-zinc-300 uppercase tracking-widest">{(stat?.percentage || 0).toFixed(1)}%</p>
                     </div>
                   </div>
                 );
@@ -381,49 +383,49 @@ export default function DashboardPage() {
 
         {/* Top Clients */}
         <Card className="border-border bg-card shadow-sm overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50">
+          <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-black tracking-tight uppercase">Ambassadeurs Premium</CardTitle>
-              <Gem className="w-5 h-5 text-zinc-400" />
+              <CardTitle className="text-base lg:text-lg font-black tracking-tight uppercase">Ambassadeurs Premium</CardTitle>
+              <Gem className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-400" />
             </div>
           </CardHeader>
-          <CardContent className="p-4">
+          <CardContent className="p-3 lg:p-4">
             {data?.topClients && data.topClients.length > 0 ? (
               <div className="space-y-2">
                 {data.topClients.map((c, index) => (
                   <div
                     key={c.clientId}
-                    className="flex items-center justify-between p-4 hover:bg-zinc-50 rounded-2xl transition-all border border-transparent hover:border-zinc-100 group"
+                    className="flex items-center justify-between p-3 lg:p-4 hover:bg-zinc-50 rounded-xl lg:rounded-2xl transition-all border border-transparent hover:border-zinc-100 group"
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
                       <div className="relative">
-                        <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white shadow-lg border border-white/10 shrink-0 group-hover:scale-110 transition-transform">
-                          <Users className="w-5 h-5" />
+                        <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white shadow-lg border border-white/10 shrink-0 group-hover:scale-110 transition-transform">
+                          <Users className="w-4 h-4 lg:w-5 lg:h-5" />
                         </div>
                         {index === 0 && (
-                          <div className="absolute -top-1 -right-1 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                            <Gem className="w-3 h-3 text-white" />
+                          <div className="absolute -top-1 -right-1 w-5 h-5 lg:w-6 lg:h-6 bg-amber-400 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                            <Gem className="w-2.5 h-2.5 lg:w-3 lg:h-3 text-white" />
                           </div>
                         )}
                       </div>
-                      <div>
-                        <p className="font-black text-sm uppercase tracking-tight text-foreground">{c.clientName}</p>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{c.totalOrders} commandes exclusives</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-black text-xs lg:text-sm uppercase tracking-tight text-foreground truncate">{c.clientName}</p>
+                        <p className="text-[9px] lg:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{c.totalOrders} commandes</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-black text-lg tracking-tighter tabular-nums leading-none mb-1">
-                        {Math.round(Number(c.totalAmount)).toLocaleString()} <span className="text-[10px] font-normal text-zinc-400">FCFA</span>
+                    <div className="text-right shrink-0 ml-2">
+                      <p className="font-black text-sm lg:text-lg tracking-tighter tabular-nums leading-none mb-1">
+                        {Math.round(Number(c.totalAmount)).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal text-zinc-400">F</span>
                       </p>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-zinc-300">Investissement</span>
+                      <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-widest text-zinc-300">Total</span>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-24 text-muted-foreground/20">
-                <Users className="w-16 h-16 mb-4" />
-                <p className="text-[10px] font-black uppercase tracking-[0.2em]">Aucun client premium enregistré</p>
+              <div className="flex flex-col items-center justify-center py-16 lg:py-24 text-muted-foreground/20">
+                <Users className="w-12 h-12 lg:w-16 lg:h-16 mb-4" />
+                <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-[0.2em]">Aucun client</p>
               </div>
             )}
           </CardContent>
