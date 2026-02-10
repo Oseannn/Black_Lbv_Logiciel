@@ -198,13 +198,13 @@ export default function ProduitsPage() {
                 </span>
               </div>
 
-              {/* Actions Overlay */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 lg:gap-3">
+              {/* Actions Overlay - Always visible on mobile, hover on desktop */}
+              <div className="absolute inset-0 bg-black/40 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 lg:gap-3">
                 <Button
                   variant="secondary"
                   size="icon"
                   onClick={() => openModal(product)}
-                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white text-black hover:bg-black hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300"
+                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white text-black hover:bg-black hover:text-white transition-all lg:transform lg:translate-y-4 lg:group-hover:translate-y-0 duration-300"
                 >
                   <Pencil className="w-4 h-4 lg:w-5 lg:h-5" />
                 </Button>
@@ -212,7 +212,7 @@ export default function ProduitsPage() {
                   variant="secondary"
                   size="icon"
                   onClick={() => handleDelete(product.id)}
-                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75"
+                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white transition-all lg:transform lg:translate-y-4 lg:group-hover:translate-y-0 duration-300 lg:delay-75"
                 >
                   <Trash2 className="w-4 h-4 lg:w-5 lg:h-5" />
                 </Button>
