@@ -74,57 +74,57 @@ export default function HistoriquePage() {
   }
 
   return (
-    <div className="space-y-10 animate-fadeIn pb-20">
+    <div className="space-y-6 lg:space-y-10 animate-fadeIn pb-6 lg:pb-20">
       <div>
-        <h2 className="text-3xl font-black text-foreground tracking-tighter">Mon Historique</h2>
-        <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest mt-1">Journal de vos ventes réalisées</p>
+        <h2 className="text-2xl lg:text-3xl font-black text-foreground tracking-tighter">Mon Historique</h2>
+        <p className="text-muted-foreground text-xs lg:text-sm font-medium uppercase tracking-widest mt-1">Journal de vos ventes</p>
       </div>
 
       {sales.length === 0 ? (
-        <Card className="text-center py-24 border-2 border-dashed border-zinc-100 bg-zinc-50/30 rounded-3xl">
+        <Card className="text-center py-16 lg:py-24 border-2 border-dashed border-zinc-100 bg-zinc-50/30 rounded-2xl lg:rounded-3xl">
           <CardContent>
-            <div className="w-20 h-20 bg-white rounded-3xl shadow-lg border border-zinc-50 flex items-center justify-center mx-auto mb-6">
-              <ClipboardList className="w-10 h-10 text-zinc-200" />
+            <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white rounded-2xl lg:rounded-3xl shadow-lg border border-zinc-50 flex items-center justify-center mx-auto mb-4 lg:mb-6">
+              <ClipboardList className="w-8 h-8 lg:w-10 lg:h-10 text-zinc-200" />
             </div>
-            <p className="text-sm font-black text-muted-foreground uppercase tracking-widest">Aucune vente enregistrée pour le moment</p>
+            <p className="text-xs lg:text-sm font-black text-muted-foreground uppercase tracking-widest">Aucune vente enregistrée</p>
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3 lg:space-y-4">
           {sales.map((sale) => (
             <Card
               key={sale.id}
-              className="cursor-pointer border-border hover:border-primary/40 hover:shadow-xl hover:translate-x-1 transition-all duration-300 bg-card rounded-2xl group overflow-hidden"
+              className="cursor-pointer border-border hover:border-primary/40 hover:shadow-xl active:scale-[0.98] transition-all duration-300 bg-card rounded-xl lg:rounded-2xl group overflow-hidden"
               onClick={() => {
                 setSelectedSale(sale);
                 setShowDetailModal(true);
               }}
             >
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300">
+              <CardContent className="p-4 lg:p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 lg:gap-5 flex-1 min-w-0">
+                    <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300 shrink-0">
                       {getPaymentIcon(sale.paymentMethod)}
                     </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <p className="text-xl font-black text-foreground tabular-nums tracking-tighter">
-                          {Math.round(Number(sale.total)).toLocaleString()} <span className="text-xs font-normal">FCFA</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 lg:gap-3 mb-1 flex-wrap">
+                        <p className="text-base lg:text-xl font-black text-foreground tabular-nums tracking-tighter">
+                          {Math.round(Number(sale.total)).toLocaleString()} <span className="text-xs font-normal">F</span>
                         </p>
-                        <span className="px-2 py-0.5 text-[8px] font-black border border-zinc-200 rounded-md uppercase tracking-widest text-zinc-400 group-hover:border-zinc-800 group-hover:text-zinc-800 transition-colors">
+                        <span className="px-1.5 lg:px-2 py-0.5 text-[8px] lg:text-[8px] font-black border border-zinc-200 rounded-md uppercase tracking-widest text-zinc-400 group-hover:border-zinc-800 group-hover:text-zinc-800 transition-colors">
                           {sale.paymentMethod}
                         </span>
                       </div>
-                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                        {sale.items.length} article{sale.items.length > 1 ? 's' : ''} • Client : {sale.clientName || 'Anonyme'}
+                      <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest truncate">
+                        {sale.items.length} article{sale.items.length > 1 ? 's' : ''} • {sale.clientName || 'Anonyme'}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-black text-foreground">
-                      {new Date(sale.createdAt).toLocaleDateString('fr-FR')}
+                  <div className="text-right shrink-0">
+                    <p className="text-xs lg:text-sm font-black text-foreground">
+                      {new Date(sale.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}
                     </p>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    <p className="text-[9px] lg:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                       {new Date(sale.createdAt).toLocaleTimeString('fr-FR', {
                         hour: '2-digit',
                         minute: '2-digit',
@@ -140,64 +140,64 @@ export default function HistoriquePage() {
 
       {/* Modal Détail */}
       <Dialog open={showDetailModal} onOpenChange={setShowDetailModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle>Détail de la Vente</DialogTitle>
+            <DialogTitle className="text-lg lg:text-xl">Détail de la Vente</DialogTitle>
           </DialogHeader>
           {selectedSale && (
-            <div className="space-y-8 pt-4">
-              <div className="grid grid-cols-2 gap-6 bg-zinc-50 p-6 rounded-2xl border border-zinc-100">
+            <div className="space-y-6 lg:space-y-8 pt-4">
+              <div className="grid grid-cols-2 gap-4 lg:gap-6 bg-zinc-50 p-4 lg:p-6 rounded-xl lg:rounded-2xl border border-zinc-100">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Date & Heure</p>
-                  <p className="text-sm font-bold">{new Date(selectedSale.createdAt).toLocaleString('fr-FR')}</p>
+                  <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Date & Heure</p>
+                  <p className="text-xs lg:text-sm font-bold">{new Date(selectedSale.createdAt).toLocaleString('fr-FR')}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Paiement</p>
-                  <p className="text-sm font-bold">{selectedSale.paymentMethod}</p>
+                  <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Paiement</p>
+                  <p className="text-xs lg:text-sm font-bold">{selectedSale.paymentMethod}</p>
                 </div>
                 <div className="col-span-2 space-y-1">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Client</p>
-                  <p className="text-sm font-bold">{selectedSale.clientName || 'Anonyme'}</p>
+                  <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Client</p>
+                  <p className="text-xs lg:text-sm font-bold">{selectedSale.clientName || 'Anonyme'}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <div className="w-1 h-4 bg-black rounded-full" />
-                  <p className="text-[10px] font-black uppercase tracking-widest">Articles achetés</p>
+                  <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest">Articles achetés</p>
                 </div>
                 <div className="space-y-3 px-1">
                   {selectedSale.items.map((item) => (
                     <div key={item.id} className="flex justify-between items-center group">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold text-foreground">
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <span className="text-sm font-bold text-foreground truncate">
                           {item.productName}
                         </span>
-                        <span className="text-[10px] font-bold text-muted-foreground">Qté: {item.quantity}</span>
+                        <span className="text-[9px] lg:text-[10px] font-bold text-muted-foreground">Qté: {item.quantity}</span>
                       </div>
-                      <span className="font-black tabular-nums tracking-tight">
-                        {Math.round(Number(item.totalPrice)).toLocaleString()} <span className="text-[10px] font-normal">FCFA</span>
+                      <span className="font-black tabular-nums tracking-tight text-sm lg:text-base shrink-0 ml-2">
+                        {Math.round(Number(item.totalPrice)).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal">F</span>
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="border-t-2 border-dashed border-zinc-100 pt-6">
-                <div className="flex items-center justify-between bg-zinc-900 text-white p-6 rounded-2xl shadow-xl">
-                  <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Total payé</span>
-                  <span className="text-3xl font-black tabular-nums tracking-tighter">
-                    {Math.round(Number(selectedSale.total)).toLocaleString()} <span className="text-sm font-normal">FCFA</span>
+              <div className="border-t-2 border-dashed border-zinc-100 pt-4 lg:pt-6">
+                <div className="flex items-center justify-between bg-zinc-900 text-white p-4 lg:p-6 rounded-xl lg:rounded-2xl shadow-xl">
+                  <span className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest opacity-60">Total payé</span>
+                  <span className="text-2xl lg:text-3xl font-black tabular-nums tracking-tighter">
+                    {Math.round(Number(selectedSale.total)).toLocaleString()} <span className="text-xs lg:text-sm font-normal">F</span>
                   </span>
                 </div>
               </div>
 
               <Button
-                className="w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-black/10"
+                className="w-full h-12 lg:h-14 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-black/10 text-sm lg:text-base"
                 onClick={() => handlePrintReceipt(selectedSale.id)}
               >
-                <Printer className="w-5 h-5 mr-3" />
-                Réimprimer le ticket
+                <Printer className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
+                Réimprimer
               </Button>
             </div>
           )}

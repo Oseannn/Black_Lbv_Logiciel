@@ -193,66 +193,66 @@ export default function VendeuseClientsPage() {
   }
 
   return (
-    <div className="space-y-8 animate-fadeIn pb-20">
+    <div className="space-y-6 lg:space-y-8 animate-fadeIn pb-6 lg:pb-20">
       {/* Header */}
-      <div className="flex items-center justify-between bg-card p-8 rounded-[40px] border border-border shadow-2xl shadow-black/5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-card p-4 lg:p-8 rounded-2xl lg:rounded-[40px] border border-border shadow-xl lg:shadow-2xl shadow-black/5 gap-4">
         <div>
-          <h1 className="text-4xl font-black text-foreground tracking-tighter uppercase">Clients</h1>
-          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1">{clients.length} profiles actifs</p>
+          <h1 className="text-2xl lg:text-4xl font-black text-foreground tracking-tighter uppercase">Clients</h1>
+          <p className="text-[9px] lg:text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1">{clients.length} profiles actifs</p>
         </div>
-        <Button onClick={() => openModal()} size="lg" className="h-14 px-8 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-black/10">
-          <Plus className="w-5 h-5 mr-3" />
+        <Button onClick={() => openModal()} size="lg" className="w-full sm:w-auto h-12 lg:h-14 px-6 lg:px-8 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-black/10 text-sm lg:text-base">
+          <Plus className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
           Ajouter
         </Button>
       </div>
 
       {/* Barre de Recherche Premium */}
       <div className="relative group">
-        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
+        <Search className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 w-4 h-4 lg:w-5 lg:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
         <input
           type="text"
-          placeholder="Rechercher par nom ou téléphone..."
+          placeholder="Rechercher..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-16 pr-6 h-16 bg-card border-2 border-border rounded-3xl text-foreground text-lg font-black placeholder:text-zinc-300 focus:outline-none focus:border-black focus:ring-0 transition-all shadow-sm group-hover:shadow-md"
+          className="w-full pl-12 lg:pl-16 pr-4 lg:pr-6 h-12 lg:h-16 bg-card border-2 border-border rounded-2xl lg:rounded-3xl text-foreground text-base lg:text-lg font-black placeholder:text-zinc-300 focus:outline-none focus:border-black focus:ring-0 transition-all shadow-sm group-hover:shadow-md"
         />
       </div>
 
       {/* Filtres Monochrome */}
-      <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
         {(['ALL', 'VIP', 'REGULAR', 'OCCASIONAL'] as FilterType[]).map((type) => (
           <button
             key={type}
             onClick={() => setFilterType(type)}
-            className={`px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-2xl whitespace-nowrap transition-all border-2 ${filterType === type
+            className={`px-4 lg:px-6 py-2 lg:py-3 text-[9px] lg:text-[10px] font-black uppercase tracking-widest rounded-xl lg:rounded-2xl whitespace-nowrap transition-all border-2 ${filterType === type
               ? 'bg-black text-white border-black shadow-lg shadow-black/10 scale-105'
               : 'bg-card text-zinc-400 border-border hover:border-black hover:text-black'
               }`}
           >
-            <span className="flex items-center gap-2">
-              {type === 'VIP' && <Gem className="w-3 h-3" />}
-              {type === 'REGULAR' && <Sparkles className="w-3 h-3" />}
-              {type === 'OCCASIONAL' && <User className="w-3 h-3" />}
-              {type === 'ALL' ? 'Tous les Clients' : type === 'VIP' ? 'VIP' : type === 'REGULAR' ? 'Réguliers' : 'Occasionnels'}
+            <span className="flex items-center gap-1.5 lg:gap-2">
+              {type === 'VIP' && <Gem className="w-2.5 h-2.5 lg:w-3 lg:h-3" />}
+              {type === 'REGULAR' && <Sparkles className="w-2.5 h-2.5 lg:w-3 lg:h-3" />}
+              {type === 'OCCASIONAL' && <User className="w-2.5 h-2.5 lg:w-3 lg:h-3" />}
+              {type === 'ALL' ? 'Tous' : type === 'VIP' ? 'VIP' : type === 'REGULAR' ? 'Réguliers' : 'Occasionnels'}
             </span>
           </button>
         ))}
       </div>
 
       {/* Liste des clients - Cards Luxury */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {filteredClients.map((client) => {
           const clientType = client.type || determineClientType(client.totalSpent || 0);
 
           return (
             <Card
               key={client.id}
-              className="bg-card border-border p-6 cursor-pointer hover:border-black hover:shadow-2xl transition-all group rounded-[32px] overflow-hidden"
+              className="bg-card border-border p-4 lg:p-6 cursor-pointer hover:border-black hover:shadow-2xl transition-all group rounded-2xl lg:rounded-[32px] overflow-hidden active:scale-95"
               onClick={() => openModal(client)}
             >
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-3 lg:gap-5">
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform ${getAvatarColor(
+                  className={`w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl flex items-center justify-center text-white font-black text-base lg:text-lg flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform ${getAvatarColor(
                     client.name
                   )}`}
                 >
@@ -260,23 +260,23 @@ export default function VendeuseClientsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col mb-1">
-                    <p className="font-black text-xl text-foreground tracking-tighter truncate leading-tight group-hover:translate-x-1 transition-transform">{client.name}</p>
+                    <p className="font-black text-base lg:text-xl text-foreground tracking-tighter truncate leading-tight group-hover:translate-x-1 transition-transform">{client.name}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <ClientTypeBadge type={clientType} />
                     </div>
                   </div>
-                  <p className="text-[11px] font-bold text-zinc-400 font-mono tracking-tight">
+                  <p className="text-[10px] lg:text-[11px] font-bold text-zinc-400 font-mono tracking-tight">
                     {client.phone || 'Pas de mobile'}
                   </p>
                 </div>
               </div>
 
               {client.totalSpent !== undefined && client.totalSpent > 0 && (
-                <div className="mt-6 pt-5 border-t border-zinc-100 flex items-center justify-between">
-                  <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">VOLUME ACHAT</span>
+                <div className="mt-4 lg:mt-6 pt-4 lg:pt-5 border-t border-zinc-100 flex items-center justify-between">
+                  <span className="text-[9px] lg:text-[10px] font-black text-zinc-300 uppercase tracking-widest">VOLUME</span>
                   <div className="text-right">
-                    <p className="text-xl font-black text-black tabular-nums tracking-tighter">
-                      {Math.round(client.totalSpent || 0).toLocaleString()} <span className="text-[10px] font-normal text-zinc-400">FCFA</span>
+                    <p className="text-base lg:text-xl font-black text-black tabular-nums tracking-tighter">
+                      {Math.round(client.totalSpent || 0).toLocaleString()} <span className="text-[9px] lg:text-[10px] font-normal text-zinc-400">F</span>
                     </p>
                   </div>
                 </div>
@@ -286,11 +286,11 @@ export default function VendeuseClientsPage() {
         })}
 
         {filteredClients.length === 0 && (
-          <div className="col-span-full text-center py-32 bg-zinc-50/50 rounded-[60px] border-2 border-dashed border-zinc-100">
-            <User className="w-20 h-20 mx-auto mb-8 text-zinc-200" />
-            <p className="text-zinc-400 font-black uppercase tracking-widest text-xs mb-8">Zéro profile trouvé</p>
-            <Button onClick={() => openModal()} size="lg" className="rounded-2xl h-14 px-8 shadow-xl shadow-black/5">
-              <Plus className="w-5 h-5 mr-3" />
+          <div className="col-span-full text-center py-20 lg:py-32 bg-zinc-50/50 rounded-3xl lg:rounded-[60px] border-2 border-dashed border-zinc-100">
+            <User className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-6 lg:mb-8 text-zinc-200" />
+            <p className="text-zinc-400 font-black uppercase tracking-widest text-xs mb-6 lg:mb-8">Aucun profil trouvé</p>
+            <Button onClick={() => openModal()} size="lg" className="rounded-xl lg:rounded-2xl h-12 lg:h-14 px-6 lg:px-8 shadow-xl shadow-black/5 text-sm lg:text-base">
+              <Plus className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
               Créer un Client
             </Button>
           </div>
@@ -299,15 +299,15 @@ export default function VendeuseClientsPage() {
 
       {/* Modal de Détails / Edition Premium */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="bg-white border-border max-w-lg p-0 rounded-[40px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)]">
-          <div className="bg-zinc-900 p-10 flex items-center gap-8">
+        <DialogContent className="bg-white border-border max-w-lg mx-4 p-0 rounded-3xl lg:rounded-[40px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)]">
+          <div className="bg-zinc-900 p-6 lg:p-10 flex items-center gap-4 lg:gap-8">
             {isCreating ? (
-              <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center text-black">
-                <Plus className="w-10 h-10" />
+              <div className="w-14 h-14 lg:w-20 lg:h-20 rounded-2xl lg:rounded-3xl bg-white flex items-center justify-center text-black">
+                <Plus className="w-7 h-7 lg:w-10 lg:h-10" />
               </div>
             ) : (
               <div
-                className={`w-20 h-20 rounded-3xl flex items-center justify-center text-white text-3xl font-black shadow-2xl ${getAvatarColor(
+                className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl lg:rounded-3xl flex items-center justify-center text-white text-2xl lg:text-3xl font-black shadow-2xl ${getAvatarColor(
                   selectedClient?.name || ''
                 )}`}
               >
@@ -315,31 +315,31 @@ export default function VendeuseClientsPage() {
               </div>
             )}
             <div>
-              <DialogTitle className="text-3xl font-black text-white tracking-tighter uppercase mb-1">
-                {isCreating ? 'Nouvelle Fiche' : 'Modifier Profile'}
+              <DialogTitle className="text-xl lg:text-3xl font-black text-white tracking-tighter uppercase mb-1">
+                {isCreating ? 'Nouvelle Fiche' : 'Modifier'}
               </DialogTitle>
-              {!isCreating && <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">ID: {selectedClient?.id.slice(-8).toUpperCase()}</p>}
+              {!isCreating && <p className="text-[9px] lg:text-[10px] font-black text-zinc-500 uppercase tracking-widest">ID: {selectedClient?.id.slice(-8).toUpperCase()}</p>}
             </div>
           </div>
 
-          <div className="p-10 space-y-10">
+          <div className="p-6 lg:p-10 space-y-6 lg:space-y-10">
             {/* Stats Rapides */}
             {!isCreating && selectedClient && (
-              <div className="grid grid-cols-3 gap-6">
-                <div className="bg-zinc-50 rounded-2xl p-4 text-center border border-zinc-100">
-                  <TrendingUp className="w-5 h-5 text-zinc-400 mx-auto mb-2" />
-                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Valeur</p>
-                  <p className="text-sm font-black text-black tabular-nums">
+              <div className="grid grid-cols-3 gap-3 lg:gap-6">
+                <div className="bg-zinc-50 rounded-xl lg:rounded-2xl p-3 lg:p-4 text-center border border-zinc-100">
+                  <TrendingUp className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-400 mx-auto mb-1 lg:mb-2" />
+                  <p className="text-[8px] lg:text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Valeur</p>
+                  <p className="text-xs lg:text-sm font-black text-black tabular-nums">
                     {(selectedClient.totalSpent || 0).toLocaleString()}
                   </p>
                 </div>
-                <div className="bg-zinc-50 rounded-2xl p-4 text-center border border-zinc-100">
-                  <ShoppingBag className="w-5 h-5 text-zinc-400 mx-auto mb-2" />
-                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Points</p>
-                  <p className="text-sm font-black text-black">-</p>
+                <div className="bg-zinc-50 rounded-xl lg:rounded-2xl p-3 lg:p-4 text-center border border-zinc-100">
+                  <ShoppingBag className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-400 mx-auto mb-1 lg:mb-2" />
+                  <p className="text-[8px] lg:text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Points</p>
+                  <p className="text-xs lg:text-sm font-black text-black">-</p>
                 </div>
-                <div className="bg-zinc-50 rounded-2xl p-4 text-center border border-zinc-100 space-y-1">
-                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Type</p>
+                <div className="bg-zinc-50 rounded-xl lg:rounded-2xl p-3 lg:p-4 text-center border border-zinc-100 space-y-1">
+                  <p className="text-[8px] lg:text-[9px] font-black text-zinc-400 uppercase tracking-widest">Type</p>
                   <ClientTypeBadge type={selectedClient.type || 'OCCASIONAL'} />
                 </div>
               </div>
@@ -347,76 +347,76 @@ export default function VendeuseClientsPage() {
 
             {/* Notifications Alert */}
             {error && (
-              <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 animate-slideUp">
-                <X className="w-5 h-5 flex-shrink-0" />
+              <div className="p-3 lg:p-4 bg-red-50 border border-red-100 rounded-xl lg:rounded-2xl flex items-center gap-3 text-red-600 animate-slideUp">
+                <X className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
                 <p className="font-bold text-xs uppercase tracking-widest">{error}</p>
               </div>
             )}
             {successMessage && (
-              <div className="p-4 bg-black border border-black rounded-2xl flex items-center gap-3 text-white animate-slideUp">
-                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              <div className="p-3 lg:p-4 bg-black border border-black rounded-xl lg:rounded-2xl flex items-center gap-3 text-white animate-slideUp">
+                <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
                 <p className="font-bold text-xs uppercase tracking-widest">{successMessage}</p>
               </div>
             )}
 
             {/* Formulaire Ultra-Clean */}
-            <div className="space-y-8">
+            <div className="space-y-6 lg:space-y-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Nom complet</label>
+                <label className="text-[9px] lg:text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Nom complet</label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Ex: Amadou Diop"
-                  className="bg-zinc-50 border-none h-14 font-black focus:bg-white transition-all text-lg"
+                  className="bg-zinc-50 border-none h-12 lg:h-14 font-black focus:bg-white transition-all text-base lg:text-lg"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Téléphone Mobile</label>
+                <label className="text-[9px] lg:text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Téléphone Mobile</label>
                 <div className="relative">
-                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-300" />
+                  <Phone className="absolute left-4 lg:left-5 top-1/2 -translate-y-1/2 w-4 h-4 lg:w-5 lg:h-5 text-zinc-300" />
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+221 77 000 00 00"
-                    className="w-full pl-14 pr-6 h-14 bg-zinc-50 border-none rounded-2xl text-foreground text-lg font-black focus:ring-2 focus:ring-black/5 focus:bg-white transition-all outline-none"
+                    className="w-full pl-12 lg:pl-14 pr-4 lg:pr-6 h-12 lg:h-14 bg-zinc-50 border-none rounded-xl lg:rounded-2xl text-foreground text-base lg:text-lg font-black focus:ring-2 focus:ring-black/5 focus:bg-white transition-all outline-none"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Adresse E-mail</label>
+                <label className="text-[9px] lg:text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Adresse E-mail</label>
                 <div className="relative">
-                  <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-300" />
+                  <Mail className="absolute left-4 lg:left-5 top-1/2 -translate-y-1/2 w-4 h-4 lg:w-5 lg:h-5 text-zinc-300" />
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="client@mail.com"
-                    className="w-full pl-14 pr-6 h-14 bg-zinc-50 border-none rounded-2xl text-foreground text-lg font-black focus:ring-2 focus:ring-black/5 focus:bg-white transition-all outline-none"
+                    className="w-full pl-12 lg:pl-14 pr-4 lg:pr-6 h-12 lg:h-14 bg-zinc-50 border-none rounded-xl lg:rounded-2xl text-foreground text-base lg:text-lg font-black focus:ring-2 focus:ring-black/5 focus:bg-white transition-all outline-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* Actions Géantes */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 lg:gap-4 pt-4">
               <Button
                 type="button"
                 variant="outline"
-                className="flex-1 h-16 rounded-2xl border-2 font-black uppercase tracking-widest"
+                className="flex-1 h-12 lg:h-16 rounded-xl lg:rounded-2xl border-2 font-black uppercase tracking-widest text-xs lg:text-sm"
                 onClick={() => setShowModal(false)}
               >
                 Annuler
               </Button>
-              <Button onClick={handleSave} className="flex-2 h-16 px-10 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-black/10" disabled={isSaving}>
+              <Button onClick={handleSave} className="flex-2 h-12 lg:h-16 px-6 lg:px-10 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-black/10 text-xs lg:text-sm" disabled={isSaving}>
                 {isSaving ? (
-                  <Loader2 className="w-6 h-6 animate-spin" />
+                  <Loader2 className="w-5 h-5 lg:w-6 lg:h-6 animate-spin" />
                 ) : (
-                  <Save className="w-6 h-6 mr-3" />
+                  <Save className="w-5 h-5 lg:w-6 lg:h-6 mr-2 lg:mr-3" />
                 )}
-                {isCreating ? 'Enregistrer Profil' : 'Sauvegarder'}
+                {isCreating ? 'Enregistrer' : 'Sauvegarder'}
               </Button>
             </div>
           </div>
