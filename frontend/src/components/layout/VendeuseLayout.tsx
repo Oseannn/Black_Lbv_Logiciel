@@ -49,28 +49,28 @@ export default function VendeuseLayout({ children }: VendeuseLayoutProps) {
 
       <main className={cn(
         "flex-1 flex flex-col min-h-screen transition-all duration-300 w-full",
-        "lg:pl-72 bg-white"
+        "lg:pl-72 bg-white pt-16 lg:pt-0"
       )}>
         {/* Status Bar / Header minimaliste */}
-        <header className="h-16 border-b border-border flex items-center justify-end px-8 bg-background sticky top-0 z-30">
+        <header className="h-16 border-b border-border flex items-center justify-end px-4 lg:px-8 bg-background fixed top-0 left-0 right-0 z-30 lg:sticky lg:left-auto">
           {currentCaisse ? (
-            <div className="flex items-center gap-3 px-4 py-2 bg-black text-white rounded-full shadow-sm">
+            <div className="flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-1.5 lg:py-2 bg-black text-white rounded-full shadow-sm">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-sm font-medium tracking-wide">
-                Caisse: {Math.round(Number(currentCaisse.currentBalance)).toLocaleString()} FCFA
+              <span className="text-xs lg:text-sm font-medium tracking-wide">
+                {Math.round(Number(currentCaisse.currentBalance)).toLocaleString()} F
               </span>
             </div>
           ) : (
-            <div className="flex items-center gap-3 px-4 py-2 bg-zinc-100 text-zinc-500 rounded-full border border-zinc-200">
+            <div className="flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-1.5 lg:py-2 bg-zinc-100 text-zinc-500 rounded-full border border-zinc-200">
               <div className="w-2 h-2 bg-zinc-400 rounded-full" />
-              <span className="text-sm font-medium tracking-wide">Caisse fermée</span>
+              <span className="text-xs lg:text-sm font-medium tracking-wide">Fermée</span>
             </div>
           )}
         </header>
 
         <div className={cn(
           "flex-1 w-full mx-auto animate-fadeIn",
-          isVentePage ? "p-0 h-[calc(100vh-64px)] overflow-hidden" : "p-6 md:p-8 max-w-7xl"
+          isVentePage ? "p-0 h-[calc(100dvh-64px)] overflow-hidden" : "p-4 md:p-6 lg:p-8 max-w-7xl"
         )}>
           {children}
         </div>

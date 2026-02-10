@@ -91,86 +91,86 @@ export default function CaissePage() {
   }
 
   return (
-    <div className="space-y-8 animate-fadeIn pb-20 max-w-4xl mx-auto">
+    <div className="space-y-6 lg:space-y-8 animate-fadeIn pb-6 lg:pb-20 max-w-4xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-black text-foreground tracking-tighter">Ma Caisse</h2>
-          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest mt-1">Gestion des flux et session</p>
+          <h2 className="text-2xl lg:text-3xl font-black text-foreground tracking-tighter">Ma Caisse</h2>
+          <p className="text-muted-foreground text-xs lg:text-sm font-medium uppercase tracking-widest mt-1">Gestion des flux et session</p>
         </div>
       </div>
 
       {currentCaisse ? (
         <>
           {/* Caisse ouverte */}
-          <Card className="relative overflow-hidden border-border bg-card shadow-xl rounded-3xl">
-            <CardContent className="p-8">
-              <div className="flex items-center justify-between mb-10">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center shadow-lg shadow-black/20">
-                    <Wallet className="w-8 h-8 text-white" />
+          <Card className="relative overflow-hidden border-border bg-card shadow-xl rounded-2xl lg:rounded-3xl">
+            <CardContent className="p-4 lg:p-8">
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6 lg:mb-10 gap-4">
+                <div className="flex items-center gap-3 lg:gap-5">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-zinc-900 flex items-center justify-center shadow-lg shadow-black/20">
+                    <Wallet className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-sm shadow-green-200" />
-                      <p className="text-xs font-black text-green-600 uppercase tracking-widest">Session Active</p>
+                      <span className="w-2 h-2 lg:w-2.5 lg:h-2.5 bg-green-500 rounded-full animate-pulse shadow-sm shadow-green-200" />
+                      <p className="text-[10px] lg:text-xs font-black text-green-600 uppercase tracking-widest">Session Active</p>
                     </div>
-                    <p className="text-sm font-bold text-muted-foreground">
-                      Ouverte le {new Date(currentCaisse.openedAt).toLocaleString('fr-FR')}
+                    <p className="text-xs lg:text-sm font-bold text-muted-foreground">
+                      {new Date(currentCaisse.openedAt).toLocaleDateString('fr-FR')}
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">ID Session</p>
-                  <p className="font-mono text-xs font-bold bg-zinc-100 px-3 py-1.5 rounded-lg border border-zinc-200">
+                <div className="text-left lg:text-right">
+                  <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">ID Session</p>
+                  <p className="font-mono text-xs font-bold bg-zinc-100 px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg border border-zinc-200">
                     #{currentCaisse.id.slice(-8).toUpperCase()}
                   </p>
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6 mb-10">
-                <div className="bg-zinc-50 border border-zinc-100 rounded-3xl p-6 transition-all hover:shadow-inner">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Fond de caisse</p>
-                  <p className="text-3xl font-black text-foreground tabular-nums tracking-tighter">
-                    {Math.round(Number(currentCaisse.openingAmount)).toLocaleString()} <span className="text-sm font-normal text-muted-foreground">FCFA</span>
+              <div className="grid grid-cols-2 gap-3 lg:gap-6 mb-6 lg:mb-10">
+                <div className="bg-zinc-50 border border-zinc-100 rounded-2xl lg:rounded-3xl p-4 lg:p-6 transition-all hover:shadow-inner">
+                  <p className="text-[9px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1 lg:mb-2">Fond de caisse</p>
+                  <p className="text-xl lg:text-3xl font-black text-foreground tabular-nums tracking-tighter">
+                    {Math.round(Number(currentCaisse.openingAmount)).toLocaleString()} <span className="text-xs lg:text-sm font-normal text-muted-foreground">F</span>
                   </p>
                 </div>
-                <div className="bg-green-50/30 border border-green-100 rounded-3xl p-6 transition-all hover:shadow-inner">
-                  <p className="text-[10px] font-black text-green-700 uppercase tracking-widest mb-2">Total Ventes</p>
-                  <p className="text-3xl font-black text-green-700 tabular-nums tracking-tighter">
-                    +{Math.round(Number(currentCaisse.totalSales)).toLocaleString()} <span className="text-sm font-normal">FCFA</span>
+                <div className="bg-green-50/30 border border-green-100 rounded-2xl lg:rounded-3xl p-4 lg:p-6 transition-all hover:shadow-inner">
+                  <p className="text-[9px] lg:text-[10px] font-black text-green-700 uppercase tracking-widest mb-1 lg:mb-2">Total Ventes</p>
+                  <p className="text-xl lg:text-3xl font-black text-green-700 tabular-nums tracking-tighter">
+                    +{Math.round(Number(currentCaisse.totalSales)).toLocaleString()} <span className="text-xs lg:text-sm font-normal">F</span>
                   </p>
                 </div>
-                <div className="bg-red-50/30 border border-red-100 rounded-3xl p-6 transition-all hover:shadow-inner">
-                  <p className="text-[10px] font-black text-red-700 uppercase tracking-widest mb-2">Sorties de caisse</p>
-                  <p className="text-3xl font-black text-red-700 tabular-nums tracking-tighter">
-                    -{Math.round(Number(currentCaisse.totalCashOut)).toLocaleString()} <span className="text-sm font-normal">FCFA</span>
+                <div className="bg-red-50/30 border border-red-100 rounded-2xl lg:rounded-3xl p-4 lg:p-6 transition-all hover:shadow-inner">
+                  <p className="text-[9px] lg:text-[10px] font-black text-red-700 uppercase tracking-widest mb-1 lg:mb-2">Sorties</p>
+                  <p className="text-xl lg:text-3xl font-black text-red-700 tabular-nums tracking-tighter">
+                    -{Math.round(Number(currentCaisse.totalCashOut)).toLocaleString()} <span className="text-xs lg:text-sm font-normal">F</span>
                   </p>
                 </div>
-                <div className="bg-zinc-900 border border-black rounded-3xl p-6 shadow-2xl shadow-black/10">
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2">Solde en main attendu</p>
-                  <p className="text-3xl font-black text-white tabular-nums tracking-tighter">
-                    {Math.round(Number(currentCaisse.currentBalance)).toLocaleString()} <span className="text-sm font-normal text-zinc-400">FCFA</span>
+                <div className="bg-zinc-900 border border-black rounded-2xl lg:rounded-3xl p-4 lg:p-6 shadow-2xl shadow-black/10">
+                  <p className="text-[9px] lg:text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 lg:mb-2">Solde attendu</p>
+                  <p className="text-xl lg:text-3xl font-black text-white tabular-nums tracking-tighter">
+                    {Math.round(Number(currentCaisse.currentBalance)).toLocaleString()} <span className="text-xs lg:text-sm font-normal text-zinc-400">F</span>
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col gap-3 lg:gap-4">
                 <Button
                   variant="outline"
                   size="lg"
-                  className="flex-1 h-14 rounded-2xl border-2 font-bold hover:bg-zinc-50"
+                  className="w-full h-12 lg:h-14 rounded-xl lg:rounded-2xl border-2 font-bold hover:bg-zinc-50 text-sm lg:text-base"
                   onClick={() => setShowCashOutModal(true)}
                 >
-                  <ArrowUpFromLine className="w-5 h-5 mr-3" />
+                  <ArrowUpFromLine className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
                   Déclarer une sortie
                 </Button>
                 <Button
                   variant="destructive"
                   size="lg"
-                  className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest border-2 border-black bg-black text-white hover:bg-zinc-800 shadow-2xl shadow-black/20"
+                  className="w-full h-12 lg:h-14 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest border-2 border-black bg-black text-white hover:bg-zinc-800 shadow-2xl shadow-black/20 text-sm lg:text-base"
                   onClick={() => setShowCloseModal(true)}
                 >
-                  <Lock className="w-5 h-5 mr-3" />
+                  <Lock className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
                   Clôturer la journée
                 </Button>
               </div>
@@ -180,17 +180,17 @@ export default function CaissePage() {
       ) : (
         <>
           {/* Caisse fermée */}
-          <Card className="text-center py-20 border-dashed border-2 bg-zinc-50/50 rounded-3xl border-zinc-200">
+          <Card className="text-center py-12 lg:py-20 border-dashed border-2 bg-zinc-50/50 rounded-2xl lg:rounded-3xl border-zinc-200">
             <CardContent>
-              <div className="w-24 h-24 rounded-3xl bg-white border border-zinc-100 shadow-2xl flex items-center justify-center mx-auto mb-8 animate-bounce transition-all duration-1000">
-                <Lock className="w-10 h-10 text-zinc-900" />
+              <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-white border border-zinc-100 shadow-2xl flex items-center justify-center mx-auto mb-6 lg:mb-8 animate-bounce transition-all duration-1000">
+                <Lock className="w-8 h-8 lg:w-10 lg:h-10 text-zinc-900" />
               </div>
-              <h3 className="text-2xl font-black text-foreground mb-3 tracking-tight">Prête à commencer ?</h3>
-              <p className="text-muted-foreground mb-10 max-w-sm mx-auto font-medium">
-                Votre caisse est actuellement fermée. Veuillez définir votre fond de caisse initial pour activer le terminal de vente.
+              <h3 className="text-xl lg:text-2xl font-black text-foreground mb-2 lg:mb-3 tracking-tight">Prête à commencer ?</h3>
+              <p className="text-sm lg:text-base text-muted-foreground mb-6 lg:mb-10 max-w-sm mx-auto font-medium px-4">
+                Votre caisse est fermée. Définissez votre fond de caisse pour activer le terminal.
               </p>
-              <Button size="lg" className="h-14 px-10 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-black/20" onClick={() => setShowOpenModal(true)}>
-                <Unlock className="w-5 h-5 mr-3" />
+              <Button size="lg" className="h-12 lg:h-14 px-8 lg:px-10 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-black/20 text-sm lg:text-base" onClick={() => setShowOpenModal(true)}>
+                <Unlock className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
                 Ouvrir ma caisse
               </Button>
             </CardContent>
@@ -200,13 +200,13 @@ export default function CaissePage() {
 
       {/* Modal Ouverture */}
       <Dialog open={showOpenModal} onOpenChange={setShowOpenModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle>Mise à disposition du fond</DialogTitle>
+            <DialogTitle className="text-lg lg:text-xl">Mise à disposition du fond</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleOpenCaisse} className="space-y-6 pt-4">
+          <form onSubmit={handleOpenCaisse} className="space-y-4 lg:space-y-6 pt-4">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Fond de caisse (FCFA)</label>
+              <label className="text-xs lg:text-sm font-semibold text-muted-foreground uppercase tracking-widest">Fond de caisse (FCFA)</label>
               <Input
                 type="number"
                 value={openingAmount}
@@ -214,21 +214,21 @@ export default function CaissePage() {
                 placeholder="Ex: 50000"
                 required
                 min="0"
-                className="h-12 text-lg font-bold"
+                className="h-12 text-base lg:text-lg font-bold"
               />
             </div>
             {error && (
               <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
-                <p className="text-sm text-red-600 font-medium">{error}</p>
+                <p className="text-xs lg:text-sm text-red-600 font-medium">{error}</p>
               </div>
             )}
             <div className="flex gap-3">
-              <Button type="button" variant="ghost" className="flex-1 h-12" onClick={() => setShowOpenModal(false)}>
+              <Button type="button" variant="ghost" className="flex-1 h-11 lg:h-12 text-sm lg:text-base" onClick={() => setShowOpenModal(false)}>
                 Annuler
               </Button>
-              <Button type="submit" className="flex-1 h-12 shadow-lg shadow-black/10" disabled={isSubmitting}>
+              <Button type="submit" className="flex-1 h-11 lg:h-12 shadow-lg shadow-black/10 text-sm lg:text-base" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Ouvrir la session
+                Ouvrir
               </Button>
             </div>
           </form>
@@ -237,41 +237,41 @@ export default function CaissePage() {
 
       {/* Modal Fermeture */}
       <Dialog open={showCloseModal} onOpenChange={setShowCloseModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle>Clôture de session</DialogTitle>
+            <DialogTitle className="text-lg lg:text-xl">Clôture de session</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleCloseCaisse} className="space-y-6 pt-4">
-            <div className="bg-zinc-900 rounded-2xl p-6 text-center shadow-xl">
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Solde informatique attendu</p>
-              <p className="text-3xl font-black text-white tabular-nums tracking-tighter">
-                {currentCaisse ? Math.round(Number(currentCaisse.currentBalance)).toLocaleString() : 0} <span className="text-sm font-normal">FCFA</span>
+          <form onSubmit={handleCloseCaisse} className="space-y-4 lg:space-y-6 pt-4">
+            <div className="bg-zinc-900 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center shadow-xl">
+              <p className="text-[9px] lg:text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Solde informatique attendu</p>
+              <p className="text-2xl lg:text-3xl font-black text-white tabular-nums tracking-tighter">
+                {currentCaisse ? Math.round(Number(currentCaisse.currentBalance)).toLocaleString() : 0} <span className="text-xs lg:text-sm font-normal">F</span>
               </p>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Montant compté réel (FCFA)</label>
+              <label className="text-xs lg:text-sm font-semibold text-muted-foreground uppercase tracking-widest">Montant compté réel (FCFA)</label>
               <Input
                 type="number"
                 value={closingAmount}
                 onChange={(e) => setClosingAmount(e.target.value)}
-                placeholder="Montant physiquement présent"
+                placeholder="Montant physique"
                 required
                 min="0"
-                className="h-12 text-lg font-bold"
+                className="h-12 text-base lg:text-lg font-bold"
               />
             </div>
             {error && (
               <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
-                <p className="text-sm text-red-600 font-medium">{error}</p>
+                <p className="text-xs lg:text-sm text-red-600 font-medium">{error}</p>
               </div>
             )}
             <div className="flex gap-3">
-              <Button type="button" variant="ghost" className="flex-1 h-12" onClick={() => setShowCloseModal(false)}>
+              <Button type="button" variant="ghost" className="flex-1 h-11 lg:h-12 text-sm lg:text-base" onClick={() => setShowCloseModal(false)}>
                 Annuler
               </Button>
-              <Button type="submit" className="flex-1 h-12 font-black uppercase tracking-widest shadow-2xl shadow-black/20" disabled={isSubmitting}>
+              <Button type="submit" className="flex-1 h-11 lg:h-12 font-black uppercase tracking-widest shadow-2xl shadow-black/20 text-xs lg:text-sm" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Valider la Clôture
+                Clôturer
               </Button>
             </div>
           </form>
@@ -280,14 +280,14 @@ export default function CaissePage() {
 
       {/* Modal Sortie de caisse */}
       <Dialog open={showCashOutModal} onOpenChange={setShowCashOutModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle>Déclarer une sortie de fonds</DialogTitle>
+            <DialogTitle className="text-lg lg:text-xl">Déclarer une sortie de fonds</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleCashOut} className="space-y-6 pt-4">
+          <form onSubmit={handleCashOut} className="space-y-4 lg:space-y-6 pt-4">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Montant à sortir (FCFA)</label>
+                <label className="text-xs lg:text-sm font-semibold text-muted-foreground uppercase tracking-widest">Montant à sortir (FCFA)</label>
                 <Input
                   type="number"
                   value={cashOutAmount}
@@ -295,33 +295,33 @@ export default function CaissePage() {
                   placeholder="0"
                   required
                   min="1"
-                  className="h-12 text-lg font-bold"
+                  className="h-12 text-base lg:text-lg font-bold"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Motif de la dépense</label>
+                <label className="text-xs lg:text-sm font-semibold text-muted-foreground uppercase tracking-widest">Motif de la dépense</label>
                 <Input
                   type="text"
                   value={cashOutReason}
                   onChange={(e) => setCashOutReason(e.target.value)}
-                  placeholder="Ex: Frais de transport, fournitures..."
+                  placeholder="Ex: Transport, fournitures..."
                   required
-                  className="h-12"
+                  className="h-12 text-sm lg:text-base"
                 />
               </div>
             </div>
             {error && (
               <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
-                <p className="text-sm text-red-600 font-medium">{error}</p>
+                <p className="text-xs lg:text-sm text-red-600 font-medium">{error}</p>
               </div>
             )}
             <div className="flex gap-3">
-              <Button type="button" variant="ghost" className="flex-1 h-12" onClick={() => setShowCashOutModal(false)}>
+              <Button type="button" variant="ghost" className="flex-1 h-11 lg:h-12 text-sm lg:text-base" onClick={() => setShowCashOutModal(false)}>
                 Annuler
               </Button>
-              <Button type="submit" className="flex-1 h-12 font-bold shadow-lg shadow-black/10" disabled={isSubmitting}>
+              <Button type="submit" className="flex-1 h-11 lg:h-12 font-bold shadow-lg shadow-black/10 text-sm lg:text-base" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Valider la Retrait
+                Valider
               </Button>
             </div>
           </form>

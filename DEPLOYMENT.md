@@ -131,7 +131,7 @@ Une fois déployé, notez l'URL de votre backend :
 Dans les paramètres du projet Vercel, ajoutez :
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=https://votre-backend.up.railway.app
+NEXT_PUBLIC_BACKEND_URL=https://votre-backend.up.railway.app. 
 ```
 
 > ⚠️ **Important** : Remplacez par l'URL réelle de votre backend Railway

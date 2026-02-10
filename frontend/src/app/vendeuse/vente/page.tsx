@@ -35,6 +35,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import Image from 'next/image';
+import { MobileCart } from '@/components/vendeuse/MobileCart';
 
 
 
@@ -262,36 +263,33 @@ export default function VentePage() {
   }
 
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col bg-zinc-50 overflow-hidden animate-fadeIn">
+    <div className="min-h-[100dvh] lg:h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-zinc-50 overflow-hidden animate-fadeIn">
       {/* 
           Le header global est déjà fourni par le layout (VendeuseLayout).
           Ici on se concentre sur l'interface de vente.
       */}
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden flex-col lg:flex-row">
         {/* Panneau gauche - Produits */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Barre de recherche & Filtres (Compact) */}
-          <div className="p-4 bg-white border-b border-border flex gap-4 items-center">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <div className="p-3 lg:p-4 bg-white border-b border-border flex gap-2 lg:gap-4 items-center flex-wrap">
+            <div className="flex-1 min-w-[200px] relative">
+              <Search className="absolute left-3 lg:left-4 top-1/2 -translate-y-1/2 w-4 h-4 lg:w-5 lg:h-5 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Scanner ou rechercher (Nom, Marque, SKU)..."
+                placeholder="Rechercher..."
                 value={searchProduct}
                 onChange={(e) => setSearchProduct(e.target.value)}
-                className="w-full pl-12 pr-20 py-2.5 bg-zinc-50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
+                className="w-full pl-10 lg:pl-12 pr-3 py-2 lg:py-2.5 bg-zinc-50 border border-border rounded-xl text-sm lg:text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 bg-zinc-200 rounded text-[10px] text-zinc-500 font-mono font-bold">
-                CTRL+K
-              </span>
             </div>
             <button 
               onClick={loadData}
-              className="px-6 py-2.5 bg-zinc-900 text-white rounded-xl flex items-center gap-2 font-medium hover:bg-black transition-colors shadow-lg shadow-black/10"
+              className="px-4 lg:px-6 py-2 lg:py-2.5 bg-zinc-900 text-white rounded-xl flex items-center gap-2 font-medium hover:bg-black transition-colors shadow-lg shadow-black/10 text-sm lg:text-base"
             >
               <svg 
-                className="w-5 h-5" 
+                className="w-4 h-4 lg:w-5 lg:h-5" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -303,31 +301,31 @@ export default function VentePage() {
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
                 />
               </svg>
-              Rafraîchir
+              <span className="hidden sm:inline">Rafraîchir</span>
             </button>
           </div>
 
           {/* Sélecteur de Catégorie (Horizontal Scroll) */}
           {categories.length > 1 && (
-            <div className="px-4 py-3 bg-white border-b border-border flex gap-2 overflow-x-auto no-scrollbar">
+            <div className="px-3 lg:px-4 py-2 lg:py-3 bg-white border-b border-border flex gap-2 overflow-x-auto no-scrollbar">
               {categories.map((cat: string) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${selectedCategory === cat
+                  className={`px-3 lg:px-5 py-1.5 lg:py-2 rounded-full text-[9px] lg:text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${selectedCategory === cat
                     ? 'bg-black text-white shadow-lg'
                     : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
                     }`}
                 >
-                  {cat === 'ALL' ? 'TOUTES LES PIÈCES' : cat}
+                  {cat === 'ALL' ? 'TOUTES' : cat}
                 </button>
               ))}
             </div>
           )}
 
           {/* Grille de produits */}
-          <div className="flex-1 overflow-auto p-6">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="flex-1 overflow-auto p-3 lg:p-6 pb-24 lg:pb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-6">
               {filteredProductsMemo.map((product: Product) => {
                 const cartItem = items.find((i) => i.product.id === product.id);
                 const inCart = cartItem?.quantity || 0;
@@ -338,13 +336,13 @@ export default function VentePage() {
                     key={product.id}
                     onClick={() => handleAddToCart(product)}
                     disabled={isOutOfStock}
-                    className={`group bg-white rounded-2xl border transition-all duration-300 flex flex-col text-left ${inCart > 0
+                    className={`group bg-white rounded-xl lg:rounded-2xl border transition-all duration-300 flex flex-col text-left ${inCart > 0
                       ? 'border-black shadow-xl shadow-black/5 scale-[1.02]'
-                      : 'border-zinc-200 hover:border-zinc-400 hover:shadow-lg'
+                      : 'border-zinc-200 hover:border-zinc-400 hover:shadow-lg active:scale-95'
                       } ${isOutOfStock ? 'opacity-40 cursor-not-allowed grayscale' : ''}`}
                   >
                     {/* Image */}
-                    <div className="relative aspect-square bg-zinc-50 rounded-t-2xl overflow-hidden border-b border-zinc-100">
+                    <div className="relative aspect-square bg-zinc-50 rounded-t-xl lg:rounded-t-2xl overflow-hidden border-b border-zinc-100">
                       {product.photo ? (
                         <img
                           src={getImageUrl(product.photo) || '/placeholder.png'}
@@ -353,24 +351,24 @@ export default function VentePage() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Package className="w-16 h-16 text-zinc-200" />
+                          <Package className="w-12 lg:w-16 h-12 lg:h-16 text-zinc-200" />
                         </div>
                       )}
 
                       {/* Badge dynamique */}
-                      <div className="absolute top-3 right-3">
+                      <div className="absolute top-2 lg:top-3 right-2 lg:right-3">
                         {isOutOfStock ? (
-                          <span className="px-2.5 py-1 bg-black text-white text-[10px] font-bold rounded-lg uppercase tracking-wider">Épuisé</span>
+                          <span className="px-2 lg:px-2.5 py-0.5 lg:py-1 bg-black text-white text-[8px] lg:text-[10px] font-bold rounded-lg uppercase tracking-wider">Épuisé</span>
                         ) : product.stock <= 5 ? (
-                          <span className="px-2.5 py-1 bg-amber-100 text-amber-700 border border-amber-200 text-[10px] font-bold rounded-lg uppercase tracking-wider">Stock bas</span>
+                          <span className="px-2 lg:px-2.5 py-0.5 lg:py-1 bg-amber-100 text-amber-700 border border-amber-200 text-[8px] lg:text-[10px] font-bold rounded-lg uppercase tracking-wider">Bas</span>
                         ) : (
-                          <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 text-zinc-600 text-[10px] font-bold rounded-lg uppercase tracking-wider">{product.stock} dispo</span>
+                          <span className="px-2 lg:px-2.5 py-0.5 lg:py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 text-zinc-600 text-[8px] lg:text-[10px] font-bold rounded-lg uppercase tracking-wider">{product.stock}</span>
                         )}
                       </div>
 
                       {inCart > 0 && (
                         <div className="absolute inset-0 bg-black/5 flex items-center justify-center">
-                          <div className="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center font-bold text-xl shadow-2xl animate-in zoom-in-50 duration-300">
+                          <div className="w-10 h-10 lg:w-14 lg:h-14 bg-black text-white rounded-full flex items-center justify-center font-bold text-lg lg:text-xl shadow-2xl animate-in zoom-in-50 duration-300">
                             {inCart}
                           </div>
                         </div>
@@ -378,27 +376,27 @@ export default function VentePage() {
                     </div>
 
                     {/* Infos */}
-                    <div className="p-4 flex-1 flex flex-col">
-                      <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">{product.brand || 'Sans marque'}</p>
-                      <h3 className="font-black text-foreground truncate text-sm mb-1">{product.name}</h3>
-                      <div className="flex flex-wrap gap-1 mb-2">
+                    <div className="p-2.5 lg:p-4 flex-1 flex flex-col">
+                      <p className="text-[8px] lg:text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-0.5 lg:mb-1 truncate">{product.brand || 'Sans marque'}</p>
+                      <h3 className="font-black text-foreground truncate text-xs lg:text-sm mb-1 leading-tight">{product.name}</h3>
+                      <div className="flex flex-wrap gap-1 mb-1 lg:mb-2">
                         {product.size && (
-                          <span className="px-1.5 py-0.5 bg-zinc-100 border border-zinc-200 rounded text-[9px] font-bold text-zinc-600 uppercase">
-                            T: {product.size}
+                          <span className="px-1 lg:px-1.5 py-0.5 bg-zinc-100 border border-zinc-200 rounded text-[8px] lg:text-[9px] font-bold text-zinc-600 uppercase">
+                            {product.size}
                           </span>
                         )}
                         {product.color && (
-                          <span className="px-1.5 py-0.5 bg-zinc-100 border border-zinc-200 rounded text-[9px] font-bold text-zinc-600 uppercase">
-                            C: {product.color}
+                          <span className="px-1 lg:px-1.5 py-0.5 bg-zinc-100 border border-zinc-200 rounded text-[8px] lg:text-[9px] font-bold text-zinc-600 uppercase">
+                            {product.color}
                           </span>
                         )}
                       </div>
-                      <div className="mt-auto pt-2 flex items-end justify-between">
-                        <p className="text-xl font-black text-foreground">
-                          {Math.round(Number(product.price)).toLocaleString()} <span className="text-[10px] font-bold text-zinc-400">FCFA</span>
+                      <div className="mt-auto pt-1 lg:pt-2 flex items-end justify-between">
+                        <p className="text-base lg:text-xl font-black text-foreground leading-none">
+                          {Math.round(Number(product.price)).toLocaleString()} <span className="text-[8px] lg:text-[10px] font-bold text-zinc-400">F</span>
                         </p>
-                        <div className="p-2 rounded-lg bg-zinc-100 text-zinc-400 group-hover:bg-black group-hover:text-white transition-colors">
-                          <Plus className="w-5 h-5" />
+                        <div className="p-1.5 lg:p-2 rounded-lg bg-zinc-100 text-zinc-400 group-hover:bg-black group-hover:text-white transition-colors">
+                          <Plus className="w-4 lg:w-5 h-4 lg:h-5" />
                         </div>
                       </div>
                     </div>
@@ -416,8 +414,8 @@ export default function VentePage() {
           </div>
         </div>
 
-        {/* Panneau droit - Panier (Style Sidemenu) */}
-        <div className="w-105 bg-white border-l border-border flex flex-col shrink-0 shadow-2xl relative z-10">
+        {/* Panneau droit - Panier (Style Sidemenu) - Hidden on mobile */}
+        <div className="hidden lg:flex w-105 bg-white border-l border-border flex-col shrink-0 shadow-2xl relative z-10">
           {/* Header Panier / Client */}
           <div className="p-6 border-b border-zinc-100">
             <div className="flex items-center justify-between mb-4">
@@ -570,6 +568,15 @@ export default function VentePage() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Cart Component */}
+      <MobileCart
+        items={items}
+        total={total}
+        onUpdateQuantity={updateQuantity}
+        onRemoveItem={removeItem}
+        itemCount={items.reduce((sum, item) => sum + item.quantity, 0)}
+      />
 
       {/* Modal Client */}
       <Dialog
