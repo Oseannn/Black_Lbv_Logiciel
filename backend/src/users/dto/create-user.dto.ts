@@ -15,7 +15,7 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Nom requis' })
   name: string;
 
-  @IsEnum(Role, { message: 'Rôle invalide (ADMIN ou VENDEUSE)' })
+  @IsEnum(Role, { message: 'Rôle invalide (ADMIN, MANAGER ou VENDEUSE)' })
   @IsOptional()
   role?: Role = Role.VENDEUSE;
 }

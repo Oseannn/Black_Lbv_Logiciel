@@ -25,6 +25,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   useEffect(() => {
     if (isReady && !isAuthenticated) {
       router.push('/');
+    } else if (isReady && user?.role === 'MANAGER') {
+      router.push('/manager');
     } else if (isReady && user?.role !== 'ADMIN') {
       router.push('/vendeuse');
     }

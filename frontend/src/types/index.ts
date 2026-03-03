@@ -1,5 +1,5 @@
 // Enums
-export type Role = 'ADMIN' | 'VENDEUSE';
+export type Role = 'ADMIN' | 'MANAGER' | 'VENDEUSE';
 export type PaymentMethod = 'CASH' | 'CARD' | 'MOBILE_MONEY';
 export type CaisseStatus = 'OPEN' | 'CLOSED';
 

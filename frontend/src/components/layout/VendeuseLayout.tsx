@@ -35,6 +35,8 @@ export default function VendeuseLayout({ children }: VendeuseLayoutProps) {
         router.push('/');
       } else if (user?.role === 'ADMIN') {
         router.push('/admin');
+      } else if (user?.role === 'MANAGER') {
+        router.push('/manager');
       } else {
         fetchCurrentCaisse();
       }

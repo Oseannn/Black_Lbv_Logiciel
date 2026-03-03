@@ -26,7 +26,7 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 @Controller('caisse')
 @UseGuards(JwtAuthGuard)
 export class CaisseController {
-  constructor(private readonly caisseService: CaisseService) {}
+  constructor(private readonly caisseService: CaisseService) { }
 
   // Ouvrir une caisse (vendeuse uniquement)
   @Post('open')
@@ -84,7 +84,7 @@ export class CaisseController {
   // Historique de toutes les caisses (admin)
   @Get('history')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   async findAll(
     @Query('userId') userId?: string,
   ): Promise<CaisseResponseDto[]> {
@@ -94,7 +94,7 @@ export class CaisseController {
   // Détails d'une caisse (admin)
   @Get(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<CaisseResponseDto> {

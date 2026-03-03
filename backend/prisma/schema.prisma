@@ -132,6 +132,7 @@ model Settings {
 
 enum Role {
   ADMIN
+  MANAGER
   VENDEUSE
 }
 

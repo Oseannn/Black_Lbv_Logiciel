@@ -35,6 +35,12 @@ const MENUS = {
     { href: '/admin/caisses', label: 'Trésorerie', icon: Wallet },
     { href: '/admin/settings', label: 'Paramètres', icon: Settings },
   ],
+  MANAGER: [
+    { href: '/manager', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/manager/produits', label: 'Produits', icon: Package },
+    { href: '/manager/ventes', label: 'Ventes', icon: Receipt },
+    { href: '/manager/caisses', label: 'Trésorerie', icon: Wallet },
+  ],
   VENDEUSE: [
     { href: '/vendeuse', label: 'Caisse', icon: Wallet },
     { href: '/vendeuse/vente', label: 'Nouvelle Vente', icon: ShoppingCart },
@@ -44,7 +50,7 @@ const MENUS = {
 };
 
 interface SidebarProps {
-  role: 'ADMIN' | 'VENDEUSE';
+  role: 'ADMIN' | 'MANAGER' | 'VENDEUSE';
 }
 
 export function Sidebar({ role }: SidebarProps) {
@@ -105,7 +111,7 @@ export function Sidebar({ role }: SidebarProps) {
             <div className="flex flex-col">
               <span className="font-bold text-xl tracking-tight">OSEAN</span>
               <span className="text-[10px] uppercase tracking-wider text-sidebar-foreground/60 font-medium">
-                {role === 'ADMIN' ? 'Administration' : 'Espace Vente'}
+                {role === 'ADMIN' ? 'Administration' : role === 'MANAGER' ? 'Gestion' : 'Espace Vente'}
               </span>
             </div>
           </div>

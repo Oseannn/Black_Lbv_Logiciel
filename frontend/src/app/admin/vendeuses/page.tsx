@@ -27,7 +27,7 @@ export default function VendeusesPage() {
     name: '',
     email: '',
     password: '',
-    role: 'VENDEUSE' as 'ADMIN' | 'VENDEUSE',
+    role: 'VENDEUSE' as 'ADMIN' | 'MANAGER' | 'VENDEUSE',
   });
 
   useEffect(() => {
@@ -272,10 +272,11 @@ export default function VendeusesPage() {
                 <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Privilèges système</label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'VENDEUSE' })}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'MANAGER' | 'VENDEUSE' })}
                   className="w-full px-4 h-12 bg-zinc-100 border-none rounded-2xl text-foreground text-sm font-black focus:ring-2 focus:ring-black/5 transition-all outline-none appearance-none"
                 >
                   <option value="VENDEUSE">VENDEUSE (Interface POS)</option>
+                  <option value="MANAGER">MANAGER (Produits, Ventes, Caisses)</option>
                   <option value="ADMIN">ADMIN (Accès Intégral)</option>
                 </select>
               </div>

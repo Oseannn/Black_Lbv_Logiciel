@@ -25,7 +25,7 @@ export class ProductsController {
   // Admin uniquement : créer un produit
   @Post()
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   async create(@Body() createProductDto: CreateProductDto): Promise<ProductResponseDto> {
     return this.productsService.create(createProductDto);
   }
@@ -47,7 +47,7 @@ export class ProductsController {
   // Admin uniquement : modifier un produit
   @Patch(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -58,7 +58,7 @@ export class ProductsController {
   // Admin uniquement : désactiver un produit
   @Delete(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   async deactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ProductResponseDto> {
     return this.productsService.deactivate(id);
   }
