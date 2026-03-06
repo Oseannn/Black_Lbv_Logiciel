@@ -54,7 +54,7 @@ export class SalesController {
   @ApiOperation({ summary: 'Obtenir l\'historique global des ventes (Admin)' })
   @Get('history')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.MANAGER)
+  @Roles(Role.ADMIN)
   async findAll(
     @Query('userId') userId?: string,
     @Query('caisseId') caisseId?: string,

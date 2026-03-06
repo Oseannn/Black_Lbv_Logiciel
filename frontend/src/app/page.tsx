@@ -25,8 +25,6 @@ export default function LoginPage() {
     if (isAuthenticated && user) {
       if (user.role === 'ADMIN') {
         router.push('/admin');
-      } else if (user.role === 'MANAGER') {
-        router.push('/manager');
       } else {
         router.push('/vendeuse');
       }

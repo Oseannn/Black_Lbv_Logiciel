@@ -23,16 +23,11 @@ export default function VendeusesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const [formData, setFormData] = useState<{
-    name: string;
-    email: string;
-    password: string;
-    role: 'ADMIN' | 'MANAGER' | 'VENDEUSE' | '';
-  }>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    role: '',
+    role: 'VENDEUSE' as 'ADMIN' | 'VENDEUSE',
   });
 
   useEffect(() => {
@@ -61,7 +56,7 @@ export default function VendeusesPage() {
       });
     } else {
       setEditingUser(null);
-      setFormData({ name: '', email: '', password: '', role: '' });
+      setFormData({ name: '', email: '', password: '', role: 'VENDEUSE' });
     }
     setError('');
     setShowModal(true);
@@ -70,30 +65,24 @@ export default function VendeusesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    if (!formData.role) {
-      setError('Veuillez sélectionner un rôle pour cet utilisateur.');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
       if (editingUser) {
         const data: { name: string; email: string; role: string; password?: string } = {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
+          name: formData.name,
+          email: formData.email,
           role: formData.role,
         };
         if (formData.password) {
-          data.password = formData.password.trim();
+          data.password = formData.password;
         }
         await api.patch(`/users/${editingUser.id}`, data);
       } else {
         await api.post('/users', {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          password: formData.password.trim(),
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
           role: formData.role,
         });
       }
@@ -283,13 +272,10 @@ export default function VendeusesPage() {
                 <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Privilèges système</label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'MANAGER' | 'VENDEUSE' | '' })}
-                  required
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'VENDEUSE' })}
                   className="w-full px-4 h-12 bg-zinc-100 border-none rounded-2xl text-foreground text-sm font-black focus:ring-2 focus:ring-black/5 transition-all outline-none appearance-none"
                 >
-                  <option value="" disabled>Sélectionner un rôle</option>
                   <option value="VENDEUSE">VENDEUSE (Interface POS)</option>
-                  <option value="MANAGER">MANAGER (Produits, Ventes, Caisses)</option>
                   <option value="ADMIN">ADMIN (Accès Intégral)</option>
                 </select>
               </div>
