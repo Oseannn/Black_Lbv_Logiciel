@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
 import { PWARegistration } from '@/components/pwa-registration';
+import { StoreProvider } from '@/components/StoreProvider';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -27,8 +28,11 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${outfit.variable} font-sans antialiased text-white`}>
         <PWARegistration />
-        {children}
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );
 }
+

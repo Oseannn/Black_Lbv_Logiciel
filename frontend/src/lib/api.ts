@@ -1,21 +1,20 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-// Force the production URL or fallback to localhost
-const BACKEND_URL = typeof window !== 'undefined' 
-  ? (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000')
-  : (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000');
-
-const API_URL = typeof window !== 'undefined'
-  ? (process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`)
-  : (process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`);
-
-console.log('🔧 API Configuration:', { BACKEND_URL, API_URL });
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api`;
 
 export { BACKEND_URL };
 
+// Retry helper for network errors and 5xx responses
+const MAX_RETRIES = 1;
+const RETRY_DELAY = 2000;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 15000, // 15 seconds timeout
   headers: {
     'Content-Type': 'application/json',
   },
@@ -45,15 +44,41 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Interceptor pour gérer les erreurs 401
+// Translate network errors to user-friendly messages
+const getReadableError = (error: any): string => {
+  if (!error.response && error.message === 'Network Error') {
+    return 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+  }
+  if (error.code === 'ECONNABORTED') {
+    return 'Le serveur met trop de temps à répondre. Réessayez dans un instant.';
+  }
+  return '';
+};
+
+// Interceptor pour gérer les erreurs 401 + retry logic
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Ne pas essayer de rafraîchir si on est déjà sur les routes d'auth
+    // Retry logic for network errors and 5xx (not on auth requests)
     const isAuthRequest = originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/refresh');
+    const retryCount = originalRequest._retryCount || 0;
+    const isRetryable = !error.response || (error.response.status >= 500 && error.response.status < 600);
 
+    if (isRetryable && retryCount < MAX_RETRIES && !isAuthRequest) {
+      originalRequest._retryCount = retryCount + 1;
+      await sleep(RETRY_DELAY);
+      return api(originalRequest);
+    }
+
+    // Add user-friendly message to network errors
+    const readableMessage = getReadableError(error);
+    if (readableMessage && !error.response) {
+      error.message = readableMessage;
+    }
+
+    // Handle 401 with token refresh
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRequest) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
