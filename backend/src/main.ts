@@ -27,28 +27,9 @@ async function bootstrap() {
 
   console.log('🔧 Allowed CORS origins:', allowedOrigins);
 
-  // Enable CORS for frontend with dynamic origin check
+  // Enable CORS for frontend
   app.enableCors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl)
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      // Check if origin is in allowed list
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      // Allow all Vercel preview deployments
-      if (origin.includes('.vercel.app')) {
-        return callback(null, true);
-      }
-
-      // Reject other origins
-      console.warn(`⚠️  CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    },
+    origin: true,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Accept, Authorization',
